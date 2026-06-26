@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Olimpiadas Vonex 2026</title>
+    <title>Dashboard Institucional - Olimpiadas Vonex 2026</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -15,17 +15,18 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at top right, #13113c 0%, #090d1f 60%, #02040a 100%);
+            /* Paleta Azul e Institucional Vonex Profunda */
+            background: radial-gradient(circle at top right, #0a183d 0%, #050a1a 60%, #010307 100%);
         }
         .premium-card {
-            background: rgba(10, 16, 32, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            background: rgba(11, 20, 38, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.1);
             backdrop-filter: blur(20px);
         }
         .nav-card {
             transition: all 0.25s ease;
         }
-        /* Estilo de Scrollbar elegante y delgado para las listas de tutores */
+        /* Estilo de Scrollbar delgado e institucional */
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -34,11 +35,11 @@
             border-radius: 8px;
         }
         .custom-scroll::-webkit-scrollbar-thumb {
-            background: rgba(56, 189, 248, 0.3); 
+            background: rgba(14, 165, 233, 0.3); 
             border-radius: 8px;
         }
         .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(56, 189, 248, 0.6); 
+            background: rgba(14, 165, 233, 0.6); 
         }
     </style>
 </head>
@@ -47,7 +48,7 @@
     <!-- PANTALLA DE BIENVENIDA (SPLASH SCREEN) -->
     <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-slate-950 backdrop-blur-2xl flex items-center justify-center transition-opacity duration-700 opacity-100">
         <div class="text-center space-y-6 transform transition-all scale-100 animate-pulse" id="welcome-content">
-            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-[0_0_40px_rgba(99,102,241,0.4)] mb-2">
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 shadow-[0_0_40px_rgba(14,165,233,0.4)] mb-2">
                 <span class="text-5xl text-white font-black">V</span>
             </div>
             <h2 class="text-3xl font-extrabold text-white tracking-tight">Olimpiadas Vonex 2026</h2>
@@ -56,9 +57,9 @@
                 <p id="welcome-loading" class="text-slate-400 font-medium tracking-widest uppercase text-sm">Calculando datos en vivo...</p>
                 
                 <div id="welcome-stats" class="hidden flex-col items-center space-y-2 mt-2">
-                    <p class="text-6xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" id="welcome-avance">...%</p>
-                    <div class="bg-rose-500/10 border border-rose-500/20 px-4 py-1.5 rounded-full mt-2">
-                        <p class="text-sm font-bold text-rose-400 tracking-wide" id="welcome-falta">Falta ...%</p>
+                    <p class="text-6xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]" id="welcome-avance">...%</p>
+                    <div class="bg-cyan-500/10 border border-cyan-500/20 px-4 py-1.5 rounded-full mt-2">
+                        <p class="text-sm font-bold text-cyan-400 tracking-wide" id="welcome-falta">Falta ...%</p>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
     <header class="border-b border-slate-800 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider shadow-md">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -77,10 +78,10 @@
             </div>
             <div class="flex items-center space-x-2.5">
                 <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -96,10 +97,10 @@
         
         <!-- MENÚ DE NAVEGACIÓN POR TARJETAS -->
         <nav class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/80 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
+            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-cyan-500/40 bg-cyan-950/40 ring-1 ring-cyan-500/20 shadow-lg shadow-cyan-500/5">
                 <div class="text-3xl">📊</div>
                 <div class="text-sm font-bold text-white mt-3">Resumen</div>
-                <div class="text-[11px] text-indigo-300 mt-1 font-medium">Gráficos y Distribución</div>
+                <div class="text-[11px] text-cyan-300 mt-1 font-medium">Gráficos y Distribución</div>
             </button>
             <button onclick="switchTab('view-clasificacion')" id="btn-view-clasificacion" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50">
                 <div class="text-3xl">🏆</div>
@@ -126,7 +127,7 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
-                <h3 class="text-3xl font-extrabold text-slate-300 mt-2 tracking-tight" id="txt-meta-global">...</h3>
+                <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
@@ -134,9 +135,9 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">📈 Avance general</p>
-                <h3 class="text-3xl font-extrabold text-indigo-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
+                <h3 class="text-3xl font-extrabold text-cyan-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
                 <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
-                    <div id="bar-avance-global" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div id="bar-avance-global" class="bg-cyan-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
         </section>
@@ -152,8 +153,8 @@
                     <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-5">Distribución Efectivo vs Yape</h3>
                     <div class="relative h-64 flex items-center justify-center"><canvas id="chartDoughnut"></canvas></div>
                     <div class="grid grid-cols-2 gap-4 text-center mt-4 border-t border-slate-800/60 pt-4 text-xs font-semibold text-slate-400">
-                        <div><span class="inline-block w-2 h-2 rounded-full bg-sky-400 mr-1.5"></span>Efectivo</div>
-                        <div><span class="inline-block w-2 h-2 rounded-full bg-violet-500 mr-1.5"></span>Yape</div>
+                        <div><span class="inline-block w-2 h-2 rounded-full bg-cyan-400 mr-1.5"></span>Efectivo</div>
+                        <div><span class="inline-block w-2 h-2 rounded-full bg-indigo-500 mr-1.5"></span>Yape</div>
                     </div>
                 </div>
             </div>
@@ -174,7 +175,7 @@
             </div>
         </div>
 
-        <!-- VISTA 3: BALANCE DE PAGOS CON LISTAS CORREGIDAS -->
+        <!-- VISTA 3: BALANCE DE PAGOS -->
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 
@@ -186,11 +187,11 @@
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400 font-medium">Total Efectivo</span>
-                            <span class="text-lg font-bold text-teal-400" id="box-efectivo-total">...</span>
+                            <span class="text-lg font-bold text-cyan-400" id="box-efectivo-total">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400 font-medium">Total Yape</span>
-                            <span class="text-lg font-bold text-violet-400" id="box-yape-total">...</span>
+                            <span class="text-lg font-bold text-indigo-400" id="box-yape-total">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-300 font-semibold">Total recolectado</span>
@@ -200,9 +201,7 @@
                     
                     <div>
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
-                        <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-efectivo-yape">
-                            <!-- Inyección JS -->
-                        </div>
+                        <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-efectivo-yape"></div>
                     </div>
                 </div>
 
@@ -218,7 +217,7 @@
                         </div>
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400 font-medium">Pagantes actuales</span>
-                            <span class="text-lg font-bold text-sky-400" id="box-pagantes-actuales">...</span>
+                            <span class="text-lg font-bold text-cyan-400" id="box-pagantes-actuales">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-rose-300 font-semibold">Faltan</span>
@@ -228,16 +227,14 @@
 
                     <div>
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
-                        <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-pagantes-meta">
-                            <!-- Inyección JS -->
-                        </div>
+                        <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-pagantes-meta"></div>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- VISTA 4: TABLA DE TUTORES -->
+        <!-- VISTA 4: TABLA DE TUTORES ESTILO CEBRA VONEX -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
                 <div class="p-5 border-b border-slate-800/80 bg-slate-950/40">
@@ -251,12 +248,12 @@
                                 <th class="py-3.5 px-2">Ciclo</th>
                                 <th class="py-3.5 px-2 text-center">Matr.</th>
                                 <th class="py-3.5 px-2 text-center text-orange-400 font-extrabold">Meta</th>
-                                <th class="py-3.5 px-2 text-center text-sky-400 font-extrabold">Pag.</th>
+                                <th class="py-3.5 px-2 text-center text-cyan-400 font-extrabold">Pag.</th>
                                 <th class="py-3.5 px-2 text-right text-amber-400 font-extrabold">Meta (S/)</th>
                                 <th class="py-3.5 px-2 text-right text-teal-400 font-extrabold">Efectivo</th>
-                                <th class="py-3.5 px-2 text-right text-violet-400 font-extrabold">Yape</th>
+                                <th class="py-3.5 px-2 text-right text-indigo-400 font-extrabold">Yape</th>
                                 <th class="py-3.5 px-2 text-right text-emerald-400 font-extrabold">Total</th>
-                                <th class="py-3.5 px-2 text-right text-rose-400">Falta</th>
+                                <th class="py-3.5 px-2 text-right text-rose-400 font-extrabold">Falta</th>
                                 <th class="py-3.5 px-3 text-center">Avance</th>
                             </tr>
                         </thead>
@@ -275,7 +272,6 @@
         let chartStudents = null;
         let isFirstLoad = true;
 
-        // Registro preventivo de plugins globales para evitar bloqueos
         if (typeof ChartDataLabels !== 'undefined') {
             Chart.register(ChartDataLabels);
         }
@@ -287,7 +283,7 @@
             document.querySelectorAll('.nav-card').forEach(btn => {
                 btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50";
             });
-            document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/90 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
+            document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-cyan-500/40 bg-cyan-950/90 ring-1 ring-cyan-500/20 shadow-lg shadow-cyan-500/5";
         }
 
         function getVal(cell, isNum = false) {
@@ -425,7 +421,7 @@
             tbody.innerHTML = '';
             data.forEach((row, i) => {
                 const tr = document.createElement('tr');
-                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/30 transition-colors border-b border-slate-900/40 text-xs";
+                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/40 transition-colors border-b border-slate-900/40 text-xs";
                 tr.innerHTML = `
                     <td class="py-3 px-3 font-bold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-1">
@@ -436,10 +432,10 @@
                     <td class="py-3 px-2 text-slate-400 font-medium whitespace-nowrap">${row.ciclo}</td>
                     <td class="py-3 px-2 text-center text-slate-300 font-semibold">${row.matriculados}</td>
                     <td class="py-3 px-2 text-center text-orange-400 font-bold">${row.metaEst}</td>
-                    <td class="py-3 px-2 text-center text-sky-400 font-bold">${row.pagantes}</td>
+                    <td class="py-3 px-2 text-center text-cyan-400 font-bold">${row.pagantes}</td>
                     <td class="py-3 px-2 text-right text-amber-400 font-bold whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-2 text-right text-teal-400 font-medium whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    <td class="py-3 px-2 text-right text-violet-400 font-medium whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="py-3 px-2 text-right text-indigo-400 font-medium whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-2 text-right font-black text-emerald-400 whitespace-nowrap">S/ ${row.recaudado.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-2 text-right font-bold whitespace-nowrap ${row.falta < 0 ? 'text-emerald-400' : 'text-rose-400'}">S/ ${row.falta.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-3 text-center">
@@ -478,7 +474,7 @@
                     </div>
                     <div class="text-right ml-2 flex-shrink-0">
                         <p class="text-sm font-bold text-white">${row.avance}%</p>
-                        <p class="text-[11px] text-sky-400 font-bold">${row.pagantes} pagantes</p>
+                        <p class="text-[11px] text-cyan-400 font-bold">${row.pagantes} pagantes</p>
                     </div>
                 `;
                 container.appendChild(item);
@@ -509,7 +505,7 @@
                         </div>
                         <div class="text-right">
                             <p class="text-[9px] text-slate-500 uppercase font-semibold">Yape</p>
-                            <p class="text-xs font-bold text-violet-400">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits:2})}</p>
+                            <p class="text-xs font-bold text-indigo-400">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits:2})}</p>
                         </div>
                     </div>
                 `;
@@ -534,7 +530,7 @@
                         </div>
                         <div class="text-center">
                             <p class="text-[9px] text-slate-500 uppercase font-semibold">Pag.</p>
-                            <p class="text-xs font-bold text-sky-400">${row.pagantes}</p>
+                            <p class="text-xs font-bold text-cyan-400">${row.pagantes}</p>
                         </div>
                         <div class="text-center bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
                             <p class="text-[9px] text-slate-500 uppercase font-semibold">${faltaText}</p>
@@ -555,8 +551,8 @@
                     labels: data.map(r => r.tutor.split(' ')[0] + ' ' + (r.tutor.split(' ')[1] || '')),
                     datasets: [
                         { label: 'Meta Asignada (S/)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
-                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: 'rgba(16, 185, 129, 0.85)', borderRadius: 4 },
-                        { label: 'Falta Recaudar (S/)', data: data.map(r => r.falta > 0 ? r.falta : 0), backgroundColor: 'rgba(239, 68, 68, 0.85)', borderRadius: 4 }
+                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: '#10b981', borderRadius: 4 },
+                        { label: 'Falta Recaudar (S/)', data: data.map(r => r.falta > 0 ? r.falta : 0), backgroundColor: '#ef4444', borderRadius: 4 }
                     ]
                 },
                 options: {
@@ -577,7 +573,7 @@
                     labels: ['Efectivo', 'Yape'],
                     datasets: [{
                         data: [efectivoGlobal, yapeGlobal],
-                        backgroundColor: ['#38bdf8', '#8b5cf6'],
+                        backgroundColor: ['#22d3ee', '#6366f1'], // Paleta Institucional Vonex (Cian y Azul)
                         borderColor: '#0f172a', borderWidth: 3
                     }]
                 },
@@ -596,7 +592,7 @@
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
                         data: [matrGlobal, metaAlGlobal, pagGlobal],
-                        backgroundColor: ['#3b82f6', '#f97316', '#06b6d4'],
+                        backgroundColor: ['#2563eb', '#f97316', '#06b6d4'], // Colores institucionales Vonex
                         borderRadius: 6,
                         barThickness: 45
                     }]
@@ -631,4 +627,4 @@
         checkInit();
     </script>
 </body>
-</html> 
+</html>
