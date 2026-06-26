@@ -25,7 +25,7 @@
         .nav-card {
             transition: all 0.25s ease;
         }
-        /* Estilo de Scrollbar elegante para las listas de tutores */
+        /* Estilo de Scrollbar elegante y delgado para las listas de tutores */
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -66,7 +66,7 @@
     </div>
 
     <!-- Encabezado -->
-    <header class="border-b border-slate-900 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
                 <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
@@ -80,7 +80,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -174,7 +174,7 @@
             </div>
         </div>
 
-        <!-- VISTA 3: BALANCE DE PAGOS CON DESGLOSE POR TUTOR -->
+        <!-- VISTA 3: BALANCE DE PAGOS CON LISTAS CORREGIDAS -->
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 
@@ -183,7 +183,6 @@
                     <div class="border-b border-slate-800/80 pb-3 mb-5">
                         <h3 class="text-base font-bold text-white">💵 Efectivo vs Yape Global</h3>
                     </div>
-                    <!-- Totales -->
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400 font-medium">Total Efectivo</span>
@@ -199,11 +198,10 @@
                         </div>
                     </div>
                     
-                    <!-- Lista Desglosada -->
-                    <div class="mt-auto">
+                    <div>
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
                         <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-efectivo-yape">
-                            <!-- Se llena con JS -->
+                            <!-- Inyección JS -->
                         </div>
                     </div>
                 </div>
@@ -213,7 +211,6 @@
                     <div class="border-b border-slate-800/80 pb-3 mb-5">
                         <h3 class="text-base font-bold text-white">👥 Pagantes vs Meta Global</h3>
                     </div>
-                    <!-- Totales -->
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400 font-medium">Meta total alumnos</span>
@@ -229,11 +226,10 @@
                         </div>
                     </div>
 
-                    <!-- Lista Desglosada -->
-                    <div class="mt-auto">
+                    <div>
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
                         <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-pagantes-meta">
-                            <!-- Se llena con JS -->
+                            <!-- Inyección JS -->
                         </div>
                     </div>
                 </div>
@@ -260,7 +256,7 @@
                                 <th class="py-3.5 px-2 text-right text-teal-400 font-extrabold">Efectivo</th>
                                 <th class="py-3.5 px-2 text-right text-violet-400 font-extrabold">Yape</th>
                                 <th class="py-3.5 px-2 text-right text-emerald-400 font-extrabold">Total</th>
-                                <th class="py-3.5 px-2 text-right text-rose-400 font-extrabold">Falta</th>
+                                <th class="py-3.5 px-2 text-right text-rose-400">Falta</th>
                                 <th class="py-3.5 px-3 text-center">Avance</th>
                             </tr>
                         </thead>
@@ -274,10 +270,15 @@
     <script>
         const SHEET_JSON_URL = 'https://docs.google.com/spreadsheets/d/1z2qJzZMr5c_lTLUDU2uXEZpUJ8JhL-tq8COC5GXKcVQ/gviz/tq?tqx=out:json&gid=6209676';
 
-        let chartBar = null;
+        let myChart = null;
         let chartPie = null;
         let chartStudents = null;
         let isFirstLoad = true;
+
+        // Registro preventivo de plugins globales para evitar bloqueos
+        if (typeof ChartDataLabels !== 'undefined') {
+            Chart.register(ChartDataLabels);
+        }
 
         function switchTab(targetId) {
             document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
@@ -367,9 +368,11 @@
                     
                     setTimeout(() => {
                         const overlay = document.getElementById('welcome-overlay');
-                        overlay.classList.remove('opacity-100');
-                        overlay.classList.add('opacity-0');
-                        setTimeout(() => overlay.remove(), 700);
+                        if(overlay) {
+                            overlay.classList.remove('opacity-100');
+                            overlay.classList.add('opacity-0');
+                            setTimeout(() => overlay.remove(), 700);
+                        }
                     }, 3500);
                     
                     isFirstLoad = false;
@@ -404,12 +407,10 @@
 
                 renderTable(tutorsData);
                 renderCharts(tutorsData, efGlobal, yGlobal, matrGlobal, metaAlGlobal, pagGlobal);
-                
+                renderPagosLists(tutorsData);
+
                 const rankedData = [...tutorsData].sort((a, b) => b.avance - a.avance);
                 renderLeaderboard(rankedData);
-                
-                // NUEVO: Renderizar las listas de desglose en la pestaña Pagos
-                renderPagosLists(tutorsData);
 
             } catch (error) {
                 console.error(error);
@@ -424,7 +425,7 @@
             tbody.innerHTML = '';
             data.forEach((row, i) => {
                 const tr = document.createElement('tr');
-                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/40 transition-colors border-b border-slate-900/40 text-xs";
+                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/30 transition-colors border-b border-slate-900/40 text-xs";
                 tr.innerHTML = `
                     <td class="py-3 px-3 font-bold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-1">
@@ -484,18 +485,18 @@
             });
         }
 
-        // NUEVA FUNCIÓN: Llena las listas de desglose en la pestaña Pagos
         function renderPagosLists(data) {
             const listEfYape = document.getElementById('list-efectivo-yape');
             const listPagMeta = document.getElementById('list-pagantes-meta');
+            
+            if(!listEfYape || !listPagMeta) return;
             
             listEfYape.innerHTML = '';
             listPagMeta.innerHTML = '';
 
             data.forEach(row => {
-                // Fila para Efectivo vs Yape
                 const itemEf = document.createElement('div');
-                itemEf.className = "bg-slate-900/40 p-3 rounded-xl border border-slate-800/40 flex justify-between items-center hover:bg-slate-800/50 transition-colors";
+                itemEf.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-850 flex justify-between items-center hover:bg-slate-900/40 transition-colors";
                 itemEf.innerHTML = `
                     <div class="truncate pr-2">
                         <p class="text-[11px] font-bold text-slate-200 truncate">${row.tutor}</p>
@@ -514,9 +515,8 @@
                 `;
                 listEfYape.appendChild(itemEf);
 
-                // Fila para Pagantes vs Meta
                 const itemPag = document.createElement('div');
-                itemPag.className = "bg-slate-900/40 p-3 rounded-xl border border-slate-800/40 flex justify-between items-center hover:bg-slate-800/50 transition-colors";
+                itemPag.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-850 flex justify-between items-center hover:bg-slate-900/40 transition-colors";
                 
                 let faltaText = row.falta < 0 ? 'Sobran' : 'Faltan';
                 let faltaColor = row.falta < 0 ? 'text-emerald-400' : 'text-rose-400';
@@ -536,7 +536,7 @@
                             <p class="text-[9px] text-slate-500 uppercase font-semibold">Pag.</p>
                             <p class="text-xs font-bold text-sky-400">${row.pagantes}</p>
                         </div>
-                        <div class="text-center bg-slate-950/50 px-2 py-0.5 rounded border border-slate-800/50">
+                        <div class="text-center bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
                             <p class="text-[9px] text-slate-500 uppercase font-semibold">${faltaText}</p>
                             <p class="text-xs font-bold ${faltaColor}">${Math.abs(faltaVal)}</p>
                         </div>
@@ -561,7 +561,7 @@
                 },
                 options: {
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8' } } },
+                    plugins: { legend: { labels: { color: '#94a3b8' } }, datalabels: { display: false } },
                     scales: {
                         x: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } },
                         y: { ticks: { color: '#e2e8f0' } }
@@ -583,7 +583,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: { legend: { display: false }, datalabels: { display: false } },
                     cutout: '75%'
                 }
             });
@@ -617,13 +617,18 @@
                         x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
                         y: { grace: '15%', grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } }
                     }
-                },
-                plugins: [ChartDataLabels]
+                }
             });
         }
 
-        loadDashboardData();
-        setInterval(loadDashboardData, 60000);
+        function checkInit() {
+            if(window.Chart && window.ChartDataLabels) {
+                loadDashboardData();
+            } else {
+                setTimeout(checkInit, 50);
+            }
+        }
+        checkInit();
     </script>
 </body>
-</html>
+</html> 
