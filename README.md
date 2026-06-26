@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Olimpiadas Vonex 2026</title>
+    <title>Dashboard Institucional - Olimpiadas Vonex 2026</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -15,12 +15,12 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at top right, #13113c 0%, #090d1f 60%, #02040a 100%);
+            /* MODIFICADO: Paleta con aura azul institucional Vonex profunda */
+            background: radial-gradient(circle at top right, #0a183d 0%, #050a1a 60%, #010307 100%);
         }
-        /* MODIFICADO: Fondo mucho más oscuro, opaco y sólido para los cuadros principales */
         .premium-card {
-            background: rgba(10, 16, 32, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            background: rgba(11, 20, 38, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.08);
             backdrop-filter: blur(20px);
         }
         .nav-card {
@@ -33,7 +33,7 @@
     <!-- PANTALLA DE BIENVENIDA (SPLASH SCREEN) -->
     <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-slate-950 backdrop-blur-2xl flex items-center justify-center transition-opacity duration-700 opacity-100">
         <div class="text-center space-y-6 transform transition-all scale-100 animate-pulse" id="welcome-content">
-            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-[0_0_40px_rgba(99,102,241,0.4)] mb-2">
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 shadow-[0_0_40px_rgba(14,165,233,0.4)] mb-2">
                 <span class="text-5xl text-white font-black">V</span>
             </div>
             <h2 class="text-3xl font-extrabold text-white tracking-tight">Olimpiadas Vonex 2026</h2>
@@ -42,9 +42,9 @@
                 <p id="welcome-loading" class="text-slate-400 font-medium tracking-widest uppercase text-sm">Calculando datos en vivo...</p>
                 
                 <div id="welcome-stats" class="hidden flex-col items-center space-y-2 mt-2">
-                    <p class="text-6xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" id="welcome-avance">...%</p>
-                    <div class="bg-rose-500/10 border border-rose-500/20 px-4 py-1.5 rounded-full mt-2">
-                        <p class="text-sm font-bold text-rose-400 tracking-wide" id="welcome-falta">Falta ...%</p>
+                    <p class="text-6xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]" id="welcome-avance">...%</p>
+                    <div class="bg-cyan-500/10 border border-cyan-500/20 px-4 py-1.5 rounded-full mt-2">
+                        <p class="text-sm font-bold text-cyan-400 tracking-wide" id="welcome-falta">Falta ...%</p>
                     </div>
                 </div>
             </div>
@@ -52,10 +52,10 @@
     </div>
 
     <!-- Encabezado -->
-    <header class="border-b border-slate-900 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -63,10 +63,10 @@
             </div>
             <div class="flex items-center space-x-2.5">
                 <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -82,10 +82,10 @@
         
         <!-- MENÚ DE NAVEGACIÓN POR TARJETAS -->
         <nav class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/80 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
+            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-cyan-500/40 bg-cyan-950/40 ring-1 ring-cyan-500/20 shadow-lg shadow-cyan-500/5">
                 <div class="text-3xl">📊</div>
                 <div class="text-sm font-bold text-white mt-3">Resumen</div>
-                <div class="text-[11px] text-indigo-300 mt-1 font-medium">Gráficos y Distribución</div>
+                <div class="text-[11px] text-cyan-300 mt-1 font-medium">Gráficos y Distribución</div>
             </button>
             <button onclick="switchTab('view-clasificacion')" id="btn-view-clasificacion" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50">
                 <div class="text-3xl">🏆</div>
@@ -120,9 +120,9 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">📈 Avance general</p>
-                <h3 class="text-3xl font-extrabold text-indigo-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
+                <h3 class="text-3xl font-extrabold text-cyan-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
                 <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
-                    <div id="bar-avance-global" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div id="bar-avance-global" class="bg-cyan-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
         </section>
@@ -165,20 +165,18 @@
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
-                    <div class="border-b border-slate-800/80 pb-3">
-                        <h3 class="text-base font-bold text-white tracking-tight">💵 Efectivo vs Yape</h3>
-                    </div>
+                    <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">💵 Efectivo vs Yape</h3></div>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
-                            <span class="text-sm text-slate-400 font-medium">Efectivo</span>
+                            <span class="text-sm text-slate-400">Efectivo</span>
                             <span class="text-lg font-bold text-sky-400" id="box-efectivo-total">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
-                            <span class="text-sm text-slate-400 font-medium">Yape</span>
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                            <span class="text-sm text-slate-400">Yape</span>
                             <span class="text-lg font-bold text-violet-400" id="box-yape-total">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
-                            <span class="text-sm text-slate-300 font-semibold">Total recolectado</span>
+                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-slate-700/30">
+                            <span class="text-sm text-slate-200 font-semibold">Total recolectado</span>
                             <span class="text-xl font-black text-emerald-400" id="box-recaudado-total">...</span>
                         </div>
                     </div>
@@ -186,15 +184,15 @@
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
                     <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">👥 Pagantes vs Meta</h3></div>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
                             <span class="text-sm text-slate-400">Meta total alumnos</span>
-                            <span class="text-lg font-bold text-slate-300" id="box-meta-alumnos">...</span>
+                            <span class="text-lg font-bold text-slate-200" id="box-meta-alumnos">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
                             <span class="text-sm text-slate-400">Pagantes actuales</span>
                             <span class="text-lg font-bold text-sky-400" id="box-pagantes-actuales">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
+                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-rose-500/20 bg-rose-500/5">
                             <span class="text-sm text-rose-300 font-semibold">Faltan</span>
                             <span class="text-xl font-black text-rose-400" id="box-pagantes-falta">...</span>
                         </div>
@@ -203,31 +201,32 @@
             </div>
         </div>
 
-        <!-- VISTA 4: TABLA DE TUTORES -->
+        <!-- VISTA 4: TABLA DE TUTORES MODIFICADA (MÁXIMO CONTRASTE OSCURO) -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
-                <div class="p-5 border-b border-slate-800/80 bg-slate-950/40">
+                <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
                     <h3 class="text-base font-bold text-white tracking-tight">Detalle por Tutor</h3>
                 </div>
                 <div class="w-full overflow-x-auto lg:overflow-x-hidden">
                     <table class="w-full text-left border-collapse text-[11px] sm:text-xs">
                         <thead>
-                            <!-- MODIFICADO: bg-slate-950 puro para máxima opacidad y contraste -->
+                            <!-- bg-slate-950: CUADRADO OSCURO DE ALTA DEFINICIÓN PARA EL ENCABEZADO -->
                             <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800 text-[10px]">
                                 <th class="py-3.5 px-3">Tutor</th>
                                 <th class="py-3.5 px-2">Ciclo</th>
                                 <th class="py-3.5 px-2 text-center">Matr.</th>
-                                <th class="py-3.5 px-2 text-center text-orange-400">Meta</th>
-                                <th class="py-3.5 px-2 text-center text-sky-400">Pag.</th>
-                                <th class="py-3.5 px-2 text-right text-amber-400">Meta (S/)</th>
-                                <th class="py-3.5 px-2 text-right text-teal-400">Efectivo</th>
-                                <th class="py-3.5 px-2 text-right text-violet-400">Yape</th>
-                                <th class="py-3.5 px-2 text-right text-emerald-400">Total</th>
-                                <th class="py-3.5 px-2 text-right text-rose-400">Falta</th>
+                                <th class="py-3.5 px-2 text-center text-orange-400 font-extrabold">Meta</th>
+                                <th class="py-3.5 px-2 text-center text-sky-400 font-extrabold">Pag.</th>
+                                <th class="py-3.5 px-2 text-right text-amber-400 font-extrabold">Meta (S/)</th>
+                                <th class="py-3.5 px-2 text-right text-teal-400 font-extrabold">Efectivo</th>
+                                <th class="py-3.5 px-2 text-right text-violet-400 font-extrabold">Yape</th>
+                                <th class="py-3.5 px-2 text-right text-emerald-400 font-extrabold">Total</th>
+                                <th class="py-3.5 px-2 text-right text-rose-400 font-extrabold">Falta</th>
                                 <th class="py-3.5 px-3 text-center">Avance</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-900/60 bg-slate-950/40 font-semibold text-slate-300" id="table-body-tutors"></tbody>
+                        <!-- ESTILO CEBRA INSTITUCIONAL: even:bg-slate-950/60 para opacidad limpia -->
+                        <tbody class="divide-y divide-slate-900/60 even:bg-slate-950/60 font-semibold text-slate-300" id="table-body-tutors"></tbody>
                     </table>
                 </div>
             </section>
@@ -237,7 +236,7 @@
     <script>
         const SHEET_JSON_URL = 'https://docs.google.com/spreadsheets/d/1z2qJzZMr5c_lTLUDU2uXEZpUJ8JhL-tq8COC5GXKcVQ/gviz/tq?tqx=out:json&gid=6209676';
 
-        let myChart = null;
+        let chartBar = null;
         let chartPie = null;
         let chartStudents = null;
         let isFirstLoad = true;
@@ -247,7 +246,7 @@
             document.getElementById(targetId).classList.remove('hidden');
 
             document.querySelectorAll('.nav-card').forEach(btn => {
-                btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50";
+                btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50";
             });
             document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/90 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
         }
@@ -382,11 +381,11 @@
         function renderTable(data) {
             const tbody = document.getElementById('table-body-tutors');
             tbody.innerHTML = '';
-            data.forEach(row => {
+            data.forEach((row, i) => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-900/80 transition-colors border-b border-slate-900/60 text-xs";
+                // MODIFICADO: Estilo cebra intercalado automático mediante clases par/impar de Tailwind
+                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/40 transition-colors border-b border-slate-900/40 text-xs";
                 tr.innerHTML = `
-                    <!-- MODIFICADO: Suavizado a text-slate-200 para reducir el brillo blanco puro -->
                     <td class="py-3 px-3 font-bold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-1">
                             <div class="h-1.5 w-1.5 rounded-full flex-shrink-0 ${row.avance >= 100 ? 'bg-emerald-400' : 'bg-indigo-400'}"></div>
@@ -413,7 +412,7 @@
         function borderAlphaFix(index) {
             return index === 0 ? 'bg-amber-500/10 border-amber-500/30' : 
                    index === 1 ? 'bg-slate-300/10 border-slate-400/30' : 
-                   index === 2 ? 'bg-amber-700/10 border-amber-700/30' : 'bg-slate-900/40 border-slate-800/60';
+                   index === 2 ? 'bg-amber-700/10 border-amber-700/30' : 'bg-slate-900/60 border-slate-800/80';
         }
 
         function renderLeaderboard(data) {
@@ -462,7 +461,7 @@
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: '#94a3b8' } } },
                     scales: {
-                        x: { grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } },
                         y: { ticks: { color: '#e2e8f0' } }
                     }
                 }
@@ -495,7 +494,7 @@
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
                         data: [matrGlobal, metaAlGlobal, pagGlobal],
-                        backgroundColor: ['#6366f1', '#f97316', '#38bdf8'],
+                        backgroundColor: ['#3b82f6', '#f97316', '#06b6d4'],
                         borderRadius: 6,
                         barThickness: 45
                     }]
@@ -514,7 +513,7 @@
                     },
                     scales: {
                         x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
-                        y: { grace: '15%', grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } }
+                        y: { grace: '15%', grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } }
                     }
                 },
                 plugins: [ChartDataLabels]
