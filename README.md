@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Rotativo - Olimpiadas Vonex 2026</title>
-    <!-- Tailwind CSS -->
+    <title>Dashboard - Olimpiadas Vonex 2026</title>
+    <!-- Tailwind CSS para diseño App de alta fidelidad -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
+    <!-- Chart.js para gráficos interactivos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,32 +21,19 @@
             backdrop-filter: blur(16px);
         }
         .nav-card {
-            transition: all 0.3s ease;
-        }
-        .nav-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.3);
-        }
-        .fade-transition {
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-        /* Margen superior para que el menú pegajoso no tape los títulos al hacer clic */
-        .scroll-mt-24 {
-            scroll-margin-top: 6rem;
+            transition: all 0.25s ease;
         }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen antialiased">
 
-    <!-- Encabezado Pegajoso -->
-    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
+    <!-- Encabezado -->
+    <header class="border-b border-slate-800 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider shadow-lg shadow-indigo-500/20">V</div>
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
-                    <h1 class="text-base font-extrabold text-white tracking-tight sm:text-lg">OLIMPIADAS VONEX 2026</h1>
+                    <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Dashboard de Pagos Automatizado</p>
                 </div>
             </div>
@@ -55,149 +42,174 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_10px_#10b981]"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 tracking-wider uppercase hidden sm:inline-block">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
 
+    <!-- Alerta de Sincronización Literal -->
+    <div id="error-box" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="bg-rose-500/10 border border-rose-500/20 text-rose-400 p-4 rounded-xl text-sm font-medium">
+            ⚠️ Alerta de Sincronización: No se pueden leer los datos. Verifica que la hoja esté compartida como "Cualquier persona con el enlace".
+        </div>
+    </div>
+
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        <!-- MENÚ DE NAVEGACIÓN INTERACTIVO -->
-        <nav class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <a href="#resumen" class="premium-card nav-card rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer group">
-                <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">📊</span>
-                <span class="text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">Resumen</span>
-            </a>
-            <a href="#clasificacion" class="premium-card nav-card rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer group">
-                <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">🏆</span>
-                <span class="text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">Clasificación</span>
-            </a>
-            <a href="#pagos" class="premium-card nav-card rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer group">
-                <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">💰</span>
-                <span class="text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">Pagos</span>
-            </a>
-            <a href="#tutores" class="premium-card nav-card rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer group">
-                <span class="text-3xl mb-2 group-hover:scale-110 transition-transform">👩‍🏫</span>
-                <span class="text-sm font-bold text-slate-300 group-hover:text-white tracking-wide">Tutores</span>
-            </a>
+        <!-- MENÚ DE NAVEGACIÓN POR TARJETAS -->
+        <nav class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
+                <div class="text-3xl">📊</div>
+                <div class="text-sm font-bold text-white mt-3">Resumen</div>
+                <div class="text-[11px] text-indigo-300 mt-1 font-medium">Gráficos y Distribución</div>
+            </button>
+            <button onclick="switchTab('view-clasificacion')" id="btn-view-clasificacion" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+                <div class="text-3xl">🏆</div>
+                <div class="text-sm font-bold text-slate-300 mt-3">Clasificación</div>
+                <div class="text-[11px] text-slate-500 mt-1 font-medium">Ranking de Posiciones</div>
+            </button>
+            <button onclick="switchTab('view-pagos')" id="btn-view-pagos" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+                <div class="text-3xl">💰</div>
+                <div class="text-sm font-bold text-slate-300 mt-3">Pagos</div>
+                <div class="text-[11px] text-slate-500 mt-1 font-medium">Efectivo vs Yape</div>
+            </button>
+            <button onclick="switchTab('view-tutores')" id="btn-view-tutores" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+                <div class="text-3xl">👩‍🏫</div>
+                <div class="text-sm font-bold text-slate-300 mt-3">Tutores</div>
+                <div class="text-[11px] text-slate-500 mt-1 font-medium">Tabla de Detalle General</div>
+            </button>
         </nav>
 
-        <!-- SECCIÓN: RESUMEN -->
-        <div id="resumen" class="space-y-8 scroll-mt-24">
-            <!-- Tarjetas de KPIs -->
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="premium-card rounded-2xl p-6 flex flex-col justify-between shadow-xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 to-violet-500"></div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Avance General</p>
-                    <h3 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400 mt-2" id="txt-avance-global">...</h3>
-                    <div class="w-full bg-slate-800 rounded-full h-2 mt-5 overflow-hidden">
-                        <div id="bar-avance-global" class="bg-gradient-to-r from-indigo-500 to-violet-500 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
-                    </div>
+        <!-- TARJETAS DE INDICADORES GLOBALES (SIEMPRE VISIBLES) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">💰 Total recaudado</p>
+                    <h3 class="text-3xl font-extrabold text-emerald-400 mt-2 tracking-tight" id="txt-recaudado-global">...</h3>
                 </div>
-                <div class="premium-card rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-emerald-500 to-teal-500"></div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Recaudado</p>
-                    <h3 class="text-3xl font-extrabold text-emerald-400 mt-2" id="txt-recaudado-global">...</h3>
-                    <p class="text-xs text-slate-500 font-semibold mt-2.5 border-t border-slate-800/60 pt-2" id="txt-meta-global">Meta Total: ...</p>
+            </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
+                    <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
                 </div>
-                <div class="premium-card rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-sky-500 to-blue-500"></div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Estudiantes Pagantes</p>
-                    <h3 class="text-3xl font-extrabold text-sky-400 mt-2" id="txt-pagantes-global">...</h3>
-                    <p class="text-xs text-slate-500 font-semibold mt-2.5 border-t border-slate-800/60 pt-2" id="txt-meta-alumnos">Meta Alumnos: ...</p>
+            </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
+                    <h3 class="text-3xl font-extrabold text-rose-400 mt-2 tracking-tight" id="txt-falta-global">...</h3>
                 </div>
-                <div class="premium-card rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-rose-500 to-red-500"></div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Monto Pendiente (Falta)</p>
-                    <h3 class="text-3xl font-extrabold text-rose-400 mt-2" id="txt-falta-global">...</h3>
-                    <p class="text-xs text-slate-500 font-semibold mt-2.5 border-t border-slate-800/60 pt-2">Por recaudar</p>
+            </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">📈 Avance general</p>
+                    <h3 class="text-3xl font-extrabold text-indigo-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
                 </div>
-            </section>
+                <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                    <div id="bar-avance-global" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </section>
 
-            <!-- Carrusel Rotativo -->
-            <section class="premium-card rounded-2xl p-6 shadow-2xl bg-gradient-to-b from-slate-950/40 to-transparent relative overflow-hidden">
-                <div class="absolute top-3 right-5 flex items-center space-x-1.5">
-                    <span class="h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
-                    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Rotación Activa</span>
+        <!-- VISTA 1: 100% GRÁFICOS Y RESUMEN -->
+        <div id="view-resumen" class="tab-view space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 premium-card rounded-2xl p-6 shadow-xl">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-5">Recaudación por tutor (Efectivo + Yape)</h3>
+                    <div class="relative h-80"><canvas id="chartTutors"></canvas></div>
                 </div>
-                <h3 class="text-base font-bold text-white mb-5 flex items-center gap-2 tracking-tight">
-                    <span>🔄 Monitoreo Individual en Tiempo Real</span>
-                </h3>
-                
-                <div id="rotation-card" class="fade-transition opacity-100 transform scale-100 grid grid-cols-1 md:grid-cols-3 gap-6 items-center min-h-[140px]">
-                    <div class="md:col-span-1 space-y-2">
-                        <span id="rot-ciclo" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider">...</span>
-                        <h2 id="rot-tutor" class="text-xl font-extrabold text-white tracking-tight mt-2">Cargando Tutor...</h2>
-                    </div>
-                    <div class="md:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center md:border-l border-slate-800/80 md:pl-6">
-                        <div class="bg-slate-900/30 p-3 rounded-xl border border-slate-800/40">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Meta Dinero</p>
-                            <p id="rot-meta" class="text-sm font-extrabold text-slate-200 mt-1">...</p>
-                        </div>
-                        <div class="bg-slate-900/30 p-3 rounded-xl border border-slate-800/40">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Efectivo</p>
-                            <p id="rot-efectivo" class="text-sm font-extrabold text-slate-300 mt-1">...</p>
-                        </div>
-                        <div class="bg-slate-900/30 p-3 rounded-xl border border-slate-800/40">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Yape</p>
-                            <p id="rot-yape" class="text-sm font-extrabold text-slate-300 mt-1">...</p>
-                        </div>
-                        <div class="bg-slate-900/30 p-3 rounded-xl border border-slate-800/40">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avance</p>
-                            <p id="rot-avance" class="text-sm font-black text-emerald-400 mt-1">...</p>
-                        </div>
+                <div class="lg:col-span-1 premium-card rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-5">Distribución Efectivo vs Yape</h3>
+                    <div class="relative h-64 flex items-center justify-center"><canvas id="chartDoughnut"></canvas></div>
+                    <div class="grid grid-cols-2 gap-4 text-center mt-4 border-t border-slate-800/60 pt-4 text-xs font-semibold text-slate-400">
+                        <div><span class="inline-block w-2 h-2 rounded-full bg-sky-400 mr-1.5"></span>Efectivo</div>
+                        <div><span class="inline-block w-2 h-2 rounded-full bg-violet-500 mr-1.5"></span>Yape</div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
 
-        <!-- Gráfico, Tabla y Ranking -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-8">
-                
-                <!-- SECCIÓN: PAGOS (Gráfico) -->
-                <section id="pagos" class="premium-card rounded-2xl p-6 shadow-xl scroll-mt-24">
-                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        💰 Comparativa de Recaudación (S/)
-                    </h3>
-                    <div class="relative h-80"><canvas id="chartTutors"></canvas></div>
-                </section>
+        <!-- VISTA 2: RANKING DE CLASIFICACIÓN -->
+        <div id="view-clasificacion" class="tab-view hidden space-y-6">
+            <div class="premium-card rounded-2xl p-6 shadow-xl max-w-2xl mx-auto">
+                <div class="mb-5 border-b border-slate-800/80 pb-3">
+                    <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">🏆 Ranking de tutores</h3>
+                    <p class="text-xs text-slate-400 mt-1">Clasificación de posiciones ordenada por porcentaje de avance logrado</p>
+                </div>
+                <div class="space-y-4" id="leaderboard-container"></div>
+            </div>
+        </div>
 
-                <!-- SECCIÓN: TUTORES (Tabla) -->
-                <section id="tutores" class="premium-card rounded-2xl overflow-hidden shadow-2xl scroll-mt-24">
-                    <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
-                        <h3 class="text-base font-bold text-white tracking-tight">👩‍🏫 Detalle por Tutor</h3>
+        <!-- VISTA 3: BALANCE DE METAS Y PAGOS -->
+        <div id="view-pagos" class="tab-view hidden space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Tarjeta Métricas Efectivo vs Yape -->
+                <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
+                    <div class="border-b border-slate-800/80 pb-3">
+                        <h3 class="text-base font-bold text-white tracking-tight">💵 Efectivo vs Yape</h3>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-slate-950/50 text-slate-400 text-[11px] font-bold uppercase tracking-wider border-b border-slate-800">
-                                    <th class="py-4 px-5">Tutor</th>
-                                    <th class="py-4 px-4">Ciclo</th>
-                                    <th class="py-4 px-4 text-center">Meta Est.</th>
-                                    <th class="py-4 px-4 text-center">Pagantes</th>
-                                    <th class="py-4 px-4 text-right">Meta (S/)</th>
-                                    <th class="py-4 px-4 text-right text-slate-400">Efectivo</th>
-                                    <th class="py-4 px-4 text-right text-slate-400">Yape</th>
-                                    <th class="py-4 px-5 text-right text-emerald-400">Recaudado</th>
-                                    <th class="py-4 px-5 text-center">% Avance</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-800/40 text-sm" id="table-body-tutors"></tbody>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                            <span class="text-sm text-slate-400 font-medium">Efectivo</span>
+                            <span class="text-lg font-bold text-sky-400" id="box-efectivo-total">...</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                            <span class="text-sm text-slate-400 font-medium">Yape</span>
+                            <span class="text-lg font-bold text-violet-400" id="box-yape-total">...</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-slate-700/30 bg-slate-950/20">
+                            <span class="text-sm text-slate-200 font-semibold">Total recolectado</span>
+                            <span class="text-xl font-black text-emerald-400" id="box-recaudado-total">...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Alumnos de la Pestaña -->
+                <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
+                    <div class="border-b border-slate-800/80 pb-3">
+                        <h3 class="text-base font-bold text-white tracking-tight">👥 Pagantes vs Meta</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                            <span class="text-sm text-slate-400 font-medium">Meta total alumnos</span>
+                            <span class="text-lg font-bold text-slate-200" id="box-meta-alumnos">...</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                            <span class="text-sm text-slate-400 font-medium">Pagantes actuales</span>
+                            <span class="text-lg font-bold text-sky-400" id="box-pagantes-actuales">...</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-rose-500/20 bg-rose-500/5">
+                            <span class="text-sm text-rose-300 font-semibold">Faltan</span>
+                            <span class="text-xl font-black text-rose-400" id="box-pagantes-falta">...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA 4: GRILLA COMPLETAMENTE EDITADA DE TUTORES -->
+        <div id="view-tutores" class="tab-view hidden space-y-6">
+            <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
+                <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
+                    <h3 class="text-base font-bold text-white tracking-tight">Detalle por Tutor</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950/50 text-slate-400 text-[11px] font-bold uppercase tracking-wider border-b border-slate-800">
+                                <th class="py-4 px-5">Tutor</th>
+                                <th class="py-4 px-4">Ciclo</th>
+                                <th class="py-4 px-4 text-center">Meta Est.</th>
+                                <th class="py-4 px-4 text-center">Pagantes</th>
+                                <th class="py-4 px-4 text-right">Meta (S/)</th>
+                                <th class="py-4 px-4 text-right text-slate-500">Efectivo</th>
+                                <th class="py-4 px-4 text-right text-slate-500">Yape</th>
+                                <th class="py-4 px-5 text-right text-emerald-400">Recaudado</th>
+                                <th class="py-4 px-5 text-center">% Avance</th>
+                            </tr>
+                            <tbody class="divide-y divide-slate-800/40 text-sm text-slate-300" id="table-body-tutors"></tbody>
                         </table>
                     </div>
-                </section>
-            </div>
-
-            <!-- SECCIÓN: CLASIFICACIÓN (Ranking) -->
-            <div class="lg:col-span-1 space-y-8">
-                <section id="clasificacion" class="premium-card rounded-2xl p-6 shadow-xl flex flex-col h-full scroll-mt-24">
-                    <div class="mb-5 border-b border-slate-800/80 pb-4">
-                        <h3 class="text-base font-bold text-white flex items-center gap-2 tracking-tight">
-                            🏆 Tabla de Posiciones
-                        </h3>
-                    </div>
-                    <div class="space-y-3.5 flex-1" id="leaderboard-container"></div>
                 </section>
             </div>
         </div>
@@ -206,14 +218,21 @@
     <script>
         const SHEET_JSON_URL = 'https://docs.google.com/spreadsheets/d/1z2qJzZMr5c_lTLUDU2uXEZpUJ8JhL-tq8COC5GXKcVQ/gviz/tq?tqx=out:json&gid=6209676';
 
-        let myChart = null;
-        let tutorsGlobalArray = [];
-        let currentRotateIndex = 0;
+        let chartBar = null;
+        let chartPie = null;
 
-        function cleanNum(val) {
-            if (!val) return 0;
-            let clean = val.toString().replace(/[S\/%,\s]/g, '').trim();
-            return parseFloat(clean) || 0;
+        function switchTab(targetId) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+            // Mostrar la pestaña destino
+            document.getElementById(targetId).classList.remove('hidden');
+
+            // Quitar estilos activos de todos los botones
+            document.querySelectorAll('.nav-card').forEach(btn => {
+                btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50";
+            });
+            // Activar botón seleccionado
+            document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
         }
 
         function getVal(cell, isNum = false) {
@@ -244,30 +263,41 @@
                 let totalsIndex = rows.findIndex(r => r && r.c && r.c[0] && getVal(r.c[0]).trim().toUpperCase() === 'TOTALES');
                 if (totalsIndex === -1) totalsIndex = rows.length - 2;
 
-                let tRow = rows[totalsIndex + 1];
-                if (!tRow && totalsIndex !== -1) tRow = rows[totalsIndex];
+                const tRow = rows[totalsIndex + 1] || rows[totalsIndex];
+                let efGlobal = 0, yGlobal = 0;
 
                 if(tRow && tRow.c) {
-                    document.getElementById('txt-meta-alumnos').innerText = `Meta Alumnos: ${getVal(tRow.c[2], true)}`;
-                    document.getElementById('txt-pagantes-global').innerText = getVal(tRow.c[3], true).toLocaleString('es-PE');
+                    efGlobal = getVal(tRow.c[5], true);
+                    yGlobal = getVal(tRow.c[6], true);
+
+                    // Indicadores principales superiores
                     document.getElementById('txt-meta-global').innerText = `Meta Total: S/ ${getVal(tRow.c[4], true).toLocaleString('es-PE')}`;
                     document.getElementById('txt-recaudado-global').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE')}`;
                     document.getElementById('txt-falta-global').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE')}`;
                     
                     let avanceStr = getVal(tRow.c[9]);
-                    let avanceGlobalNum = 0;
-                    if (avanceStr.includes('%')) {
-                        avanceGlobalNum = parseInt(avanceStr);
-                    } else {
-                        let n = getVal(tRow.c[9], true);
-                        avanceGlobalNum = n <= 1.5 ? Math.round(n * 100) : Math.round(n);
-                    }
+                    let avanceGlobalNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(tRow.c[9], true) * 100);
+                    if (avanceStr && !avanceStr.includes('%') && getVal(tRow.c[9], true) <= 1.5) avanceGlobalNum = Math.round(getVal(tRow.c[9], true) * 100);
                     
                     document.getElementById('txt-avance-global').innerText = avanceGlobalNum + '%';
                     document.getElementById('bar-avance-global').style.width = avanceGlobalNum + '%';
+
+                    // Tarjetas del Balance de Pagos
+                    document.getElementById('box-efectivo-total').innerText = `S/ ${efGlobal.toLocaleString('es-PE', {minimumFractionDigits:2})}`;
+                    document.getElementById('box-yape-total').innerText = `S/ ${yGlobal.toLocaleString('es-PE', {minimumFractionDigits:2})}`;
+                    document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE', {minimumFractionDigits:2})}`;
+
+                    // Tarjetas de Alumnos
+                    let mAlumnos = getVal(tRow.c[2], true);
+                    let pActuales = getVal(tRow.c[3], true);
+                    document.getElementById('box-meta-alumnos').innerText = mAlumnos;
+                    document.getElementById('box-pagantes-actuales').innerText = pActuales;
+                    document.getElementById('box-pagantes-falta').innerText = (mAlumnos - Math.floor(pActuales));
+
+                    document.getElementById('error-box').classList.add('hidden');
                 }
 
-                tutorsGlobalArray = [];
+                const tutorsData = [];
                 for (let i = 0; i < totalsIndex; i++) {
                     const row = rows[i];
                     if (!row || !row.c || !row.c[0]) continue;
@@ -276,15 +306,10 @@
                     if (tutorName === '' || tutorName.toUpperCase() === 'TUTOR' || tutorName.toUpperCase() === 'TOTALES') continue;
 
                     let avanceStr = getVal(row.c[9]);
-                    let avanceNum = 0;
-                    if (avanceStr.includes('%')) {
-                        avanceNum = parseInt(avanceStr);
-                    } else {
-                        let n = getVal(row.c[9], true);
-                        avanceNum = n <= 1.5 ? Math.round(n * 100) : Math.round(n);
-                    }
+                    let avanceNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(row.c[9], true) * 100);
+                    if (avanceStr && !avanceStr.includes('%') && getVal(row.c[9], true) <= 1.5) avanceNum = Math.round(getVal(row.c[9], true) * 100);
 
-                    tutorsGlobalArray.push({
+                    tutorsData.push({
                         tutor: tutorName,
                         ciclo: getVal(row.c[1]).trim(),
                         metaEst: getVal(row.c[2], true),
@@ -298,39 +323,16 @@
                     });
                 }
 
-                renderTable(tutorsGlobalArray);
-                renderChart(tutorsGlobalArray);
+                renderTable(tutorsData);
+                renderCharts(tutorsData, efGlobal, yGlobal);
                 
-                const rankedData = [...tutorsGlobalArray].sort((a, b) => b.avance - a.avance);
+                const rankedData = [...tutorsData].sort((a, b) => b.avance - a.avance);
                 renderLeaderboard(rankedData);
 
             } catch (error) {
                 console.error(error);
+                document.getElementById('error-box').classList.remove('hidden');
             }
-        }
-
-        function rotateTutorOneByOne() {
-            if (tutorsGlobalArray.length === 0) return;
-            
-            const cardEl = document.getElementById('rotation-card');
-            cardEl.style.opacity = 0;
-            cardEl.style.transform = 'scale(0.98)';
-            
-            setTimeout(() => {
-                const currentTutor = tutorsGlobalArray[currentRotateIndex];
-                
-                document.getElementById('rot-ciclo').innerText = currentTutor.ciclo;
-                document.getElementById('rot-tutor').innerText = currentTutor.tutor;
-                document.getElementById('rot-meta').innerText = `S/ ${currentTutor.metaDinero.toLocaleString('es-PE')}`;
-                document.getElementById('rot-efectivo').innerText = `S/ ${currentTutor.efectivo.toLocaleString('es-PE')}`;
-                document.getElementById('rot-yape').innerText = `S/ ${currentTutor.yape.toLocaleString('es-PE')}`;
-                document.getElementById('rot-avance').innerText = `${currentTutor.avance}%`;
-                
-                cardEl.style.opacity = 1;
-                cardEl.style.transform = 'scale(1)';
-                
-                currentRotateIndex = (currentRotateIndex + 1) % tutorsGlobalArray.length;
-            }, 500);
         }
 
         function renderTable(data) {
@@ -338,25 +340,25 @@
             tbody.innerHTML = '';
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/40 transition-all border-b border-slate-800/30 text-slate-300";
+                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40";
                 tr.innerHTML = `
-                    <td class="py-4 px-5 font-semibold text-slate-100 whitespace-nowrap">
+                    <td class="py-4 px-5 font-semibold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-2.5">
-                            <div class="h-2 w-2 rounded-full ${row.avance >= 100 ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-indigo-400'}"></div>
+                            <div class="h-2 w-2 rounded-full ${row.avance >= 100 ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-indigo-400'}"></div>
                             <span>${row.tutor}</span>
                         </div>
                     </td>
                     <td class="py-4 px-4 whitespace-nowrap">
-                        <span class="bg-slate-800/80 text-slate-300 text-[11px] font-bold px-2.5 py-0.5 rounded-md border border-slate-700/50 tracking-wide">${row.ciclo}</span>
+                        <span class="bg-slate-800 text-slate-300 text-[11px] font-bold px-2 py-0.5 rounded-md">${row.ciclo}</span>
                     </td>
-                    <td class="py-4 px-4 text-center font-semibold text-slate-300">${row.metaEst}</td>
-                    <td class="py-4 px-4 text-center font-semibold text-slate-300">${row.pagantes}</td>
-                    <td class="py-4 px-4 text-right font-medium text-slate-400 whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    <td class="py-4 px-4 text-right font-medium text-slate-400/80 whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    <td class="py-4 px-4 text-right font-medium text-slate-400/80 whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    <td class="py-4 px-5 text-right font-bold text-emerald-400 whitespace-nowrap">S/ ${row.recaudado.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td class="py-4 px-4 text-center font-medium">${row.metaEst}</td>
+                    <td class="py-4 px-4 text-center font-medium">${row.pagantes}</td>
+                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
+                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
+                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
+                    <td class="py-4 px-5 text-right font-bold text-emerald-400 whitespace-nowrap">S/ ${row.recaudado.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
                     <td class="py-4 px-5 text-center">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30'}">${row.avance}%</span>
+                        <span class="px-2 py-1 rounded text-xs font-bold ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}">${row.avance}%</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -371,7 +373,7 @@
                 item.className = `flex items-center justify-between p-4 rounded-xl border ${
                     index === 0 ? 'bg-amber-500/10 border-amber-500/30' : 
                     index === 1 ? 'bg-slate-300/10 border-slate-400/30' : 
-                    index === 2 ? 'bg-amber-700/10 border-amber-700/20' : 'bg-slate-800/30 border-slate-800/60'
+                    index === 2 ? 'bg-amber-700/10 border-amber-700/30' : 'bg-slate-800/30 border-slate-700/50'
                 }`;
                 
                 let medal = `<span class="text-sm font-bold text-slate-400 w-6">${index + 1}</span>`;
@@ -396,23 +398,20 @@
             });
         }
 
-        function renderChart(data) {
-            const ctx = document.getElementById('chartTutors').getContext('2d');
-            if (myChart) { myChart.destroy(); }
-            
-            myChart = new Chart(ctx, {
+        function renderCharts(data, efectivoGlobal, yapeGlobal) {
+            const ctxBar = document.getElementById('chartTutors').getContext('2d');
+            if (chartBar) { chartBar.destroy(); }
+            chartBar = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
                     labels: data.map(r => r.tutor.split(' ')[0] + ' ' + (r.tutor.split(' ')[1] || '')),
                     datasets: [
-                        { label: 'Meta Fija (S/.)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
-                        { label: 'Recaudado (S/.)', data: data.map(r => r.recaudado), backgroundColor: 'rgba(99, 102, 241, 0.8)', borderRadius: 4 }
+                        { label: 'Meta Asignada (S/)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
+                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: 'rgba(99, 102, 241, 0.8)', borderRadius: 4 }
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: '#94a3b8' } } },
                     scales: {
                         x: { grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } },
@@ -420,14 +419,29 @@
                     }
                 }
             });
+
+            const ctxPie = document.getElementById('chartDoughnut').getContext('2d');
+            if (chartPie) { chartPie.destroy(); }
+            chartPie = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Efectivo', 'Yape'],
+                    datasets: [{
+                        data: [efectivoGlobal, yapeGlobal],
+                        backgroundColor: ['#38bdf8', '#8b5cf6'],
+                        borderColor: '#0f172a', borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '75%'
+                }
+            });
         }
 
-        loadDashboardData().then(() => {
-            setInterval(rotateTutorOneByOne, 4000);
-            setTimeout(rotateTutorOneByOne, 800);
-        });
-        
-        setInterval(loadDashboardData, 60000);
+        loadDashboardData();
+        setInterval(loadDashboardData, 60000); // Sincronización automática de fondo cada minuto
     </script>
 </body>
 </html>
