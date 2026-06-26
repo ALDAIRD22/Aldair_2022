@@ -8,14 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Librería para mostrar números sobre las barras de Chart.js -->
+    <!-- Librería para mostrar números sobre las barras -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            /* Paleta Azul e Institucional Vonex Profunda */
             background: radial-gradient(circle at top right, #0a183d 0%, #050a1a 60%, #010307 100%);
         }
         .premium-card {
@@ -26,7 +25,7 @@
         .nav-card {
             transition: all 0.25s ease;
         }
-        /* Estilo de Scrollbar delgado e institucional */
+        /* Estilo de la barra de deslizamiento (Scrollbar) compacta e institucional */
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -35,11 +34,11 @@
             border-radius: 8px;
         }
         .custom-scroll::-webkit-scrollbar-thumb {
-            background: rgba(14, 165, 233, 0.3); 
+            background: rgba(14, 165, 233, 0.4); 
             border-radius: 8px;
         }
         .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(14, 165, 233, 0.6); 
+            background: rgba(14, 165, 233, 0.7); 
         }
     </style>
 </head>
@@ -70,7 +69,7 @@
     <header class="border-b border-slate-800 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider shadow-md">V</div>
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-500 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -127,7 +126,7 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
-                <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
+                <h3 class="text-3xl font-extrabold text-slate-300 mt-2 tracking-tight" id="txt-meta-global">...</h3>
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
@@ -175,7 +174,7 @@
             </div>
         </div>
 
-        <!-- VISTA 3: BALANCE DE PAGOS -->
+        <!-- VISTA 3: BALANCE DE PAGOS CON DESGLOSE POR TUTOR -->
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 
@@ -199,7 +198,7 @@
                         </div>
                     </div>
                     
-                    <div>
+                    <div class="w-full">
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
                         <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-efectivo-yape"></div>
                     </div>
@@ -225,7 +224,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="w-full">
                         <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Desglose por Tutor</h4>
                         <div class="space-y-2 max-h-[320px] overflow-y-auto pr-2 custom-scroll" id="list-pagantes-meta"></div>
                     </div>
@@ -234,7 +233,7 @@
             </div>
         </div>
 
-        <!-- VISTA 4: TABLA DE TUTORES ESTILO CEBRA VONEX -->
+        <!-- VISTA 4: TABLA DE TUTORES -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
                 <div class="p-5 border-b border-slate-800/80 bg-slate-950/40">
@@ -271,10 +270,6 @@
         let chartPie = null;
         let chartStudents = null;
         let isFirstLoad = true;
-
-        if (typeof ChartDataLabels !== 'undefined') {
-            Chart.register(ChartDataLabels);
-        }
 
         function switchTab(targetId) {
             document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
@@ -421,7 +416,7 @@
             tbody.innerHTML = '';
             data.forEach((row, i) => {
                 const tr = document.createElement('tr');
-                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/40 transition-colors border-b border-slate-900/40 text-xs";
+                tr.className = "even:bg-slate-950/50 odd:bg-slate-900/20 hover:bg-slate-800/30 transition-colors border-b border-slate-900/40 text-xs";
                 tr.innerHTML = `
                     <td class="py-3 px-3 font-bold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-1">
@@ -432,7 +427,7 @@
                     <td class="py-3 px-2 text-slate-400 font-medium whitespace-nowrap">${row.ciclo}</td>
                     <td class="py-3 px-2 text-center text-slate-300 font-semibold">${row.matriculados}</td>
                     <td class="py-3 px-2 text-center text-orange-400 font-bold">${row.metaEst}</td>
-                    <td class="py-3 px-2 text-center text-cyan-400 font-bold">${row.pagantes}</td>
+                    <td class="py-3 px-2 text-center text-sky-400 font-bold">${row.pagantes}</td>
                     <td class="py-3 px-2 text-right text-amber-400 font-bold whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-2 text-right text-teal-400 font-medium whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td class="py-3 px-2 text-right text-indigo-400 font-medium whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
@@ -573,7 +568,7 @@
                     labels: ['Efectivo', 'Yape'],
                     datasets: [{
                         data: [efectivoGlobal, yapeGlobal],
-                        backgroundColor: ['#22d3ee', '#6366f1'], // Paleta Institucional Vonex (Cian y Azul)
+                        backgroundColor: ['#22d3ee', '#6366f1'],
                         borderColor: '#0f172a', borderWidth: 3
                     }]
                 },
@@ -592,7 +587,7 @@
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
                         data: [matrGlobal, metaAlGlobal, pagGlobal],
-                        backgroundColor: ['#2563eb', '#f97316', '#06b6d4'], // Colores institucionales Vonex
+                        backgroundColor: ['#2563eb', '#f97316', '#06b6d4'],
                         borderRadius: 6,
                         barThickness: 45
                     }]
@@ -613,12 +608,14 @@
                         x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
                         y: { grace: '15%', grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } }
                     }
-                }
+                },
+                plugins: [ChartDataLabels]
             });
         }
 
+        // Sistema de verificación asíncrona para asegurar la carga completa de librerías
         function checkInit() {
-            if(window.Chart && window.ChartDataLabels) {
+            if(window.Chart && window.navigator) {
                 loadDashboardData();
             } else {
                 setTimeout(checkInit, 50);
@@ -627,4 +624,4 @@
         checkInit();
     </script>
 </body>
-</html>
+</html> 
