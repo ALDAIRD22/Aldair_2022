@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Olimpiadas Vonex 2026</title>
-    <!-- Tailwind CSS para diseño App de alta fidelidad -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js para gráficos interactivos -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +34,7 @@
                 <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
-                    <p class="text-xs text-slate-400">Dashboard de Pagos Automatizado</p>
+                    <p class="text-xs text-slate-400">Control de pagos automatizado</p>
                 </div>
             </div>
             <div class="flex items-center space-x-2.5">
@@ -187,31 +187,30 @@
             </div>
         </div>
 
-        <!-- VISTA 4: GRILLA COMPLETAMENTE EDITADA DE TUTORES -->
+        <!-- VISTA 4: TABLA DE TUTORES COMPACTA Y SIN DESPLAZAMIENTO HORIZONTAL -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
                 <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
                     <h3 class="text-base font-bold text-white tracking-tight">Detalle por Tutor</h3>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <div class="w-full overflow-x-hidden"> <!-- Evita desborde horizontal -->
+                    <table class="w-full text-left border-collapse table-fixed md:table-auto text-xs">
                         <thead>
-                            <tr class="bg-slate-950/50 text-slate-400 text-[11px] font-bold uppercase tracking-wider border-b border-slate-800">
-                                <th class="py-4 px-5">Tutor</th>
-                                <th class="py-4 px-4">Ciclo</th>
-                                <th class="py-4 px-4 text-center">Meta Est.</th>
-                                <th class="py-4 px-4 text-center">Pagantes</th>
-                                <th class="py-4 px-4 text-right">Meta (S/)</th>
-                                <th class="py-4 px-4 text-right text-slate-500">Efectivo</th>
-                                <th class="py-4 px-4 text-right text-slate-500">Yape</th>
-                                <th class="py-4 px-5 text-right text-emerald-400">Recaudado</th>
-                                <th class="py-4 px-5 text-center">% Avance</th>
+                            <tr class="bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800 text-[10px]">
+                                <th class="py-3 px-2 w-[22%] sm:w-auto">Tutor</th>
+                                <th class="py-3 px-2 w-[18%] sm:w-auto">Ciclo</th>
+                                <th class="py-3 px-2 text-right">Meta (S/)</th>
+                                <th class="py-3 px-2 text-right">Efectivo</th>
+                                <th class="py-3 px-2 text-right">Yape</th>
+                                <th class="py-3 px-2 text-right">Total</th>
+                                <th class="py-3 px-2 text-right">Falta</th>
+                                <th class="py-3 px-2 text-center">Avance</th>
                             </tr>
-                            <tbody class="divide-y divide-slate-800/40 text-sm text-slate-300" id="table-body-tutors"></tbody>
-                        </table>
-                    </div>
-                </section>
-            </div>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/40 font-medium text-slate-300" id="table-body-tutors"></tbody>
+                    </table>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -222,16 +221,12 @@
         let chartPie = null;
 
         function switchTab(targetId) {
-            // Ocultar todas las pestañas
             document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
-            // Mostrar la pestaña destino
             document.getElementById(targetId).classList.remove('hidden');
 
-            // Quitar estilos activos de todos los botones
             document.querySelectorAll('.nav-card').forEach(btn => {
                 btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50";
             });
-            // Activar botón seleccionado
             document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
         }
 
@@ -270,7 +265,6 @@
                     efGlobal = getVal(tRow.c[5], true);
                     yGlobal = getVal(tRow.c[6], true);
 
-                    // Indicadores principales superiores
                     document.getElementById('txt-meta-global').innerText = `Meta Total: S/ ${getVal(tRow.c[4], true).toLocaleString('es-PE')}`;
                     document.getElementById('txt-recaudado-global').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE')}`;
                     document.getElementById('txt-falta-global').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE')}`;
@@ -282,12 +276,10 @@
                     document.getElementById('txt-avance-global').innerText = avanceGlobalNum + '%';
                     document.getElementById('bar-avance-global').style.width = avanceGlobalNum + '%';
 
-                    // Tarjetas del Balance de Pagos
-                    document.getElementById('box-efectivo-total').innerText = `S/ ${efGlobal.toLocaleString('es-PE', {minimumFractionDigits:2})}`;
-                    document.getElementById('box-yape-total').innerText = `S/ ${yGlobal.toLocaleString('es-PE', {minimumFractionDigits:2})}`;
-                    document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE', {minimumFractionDigits:2})}`;
+                    document.getElementById('box-efectivo-total').innerText = `S/ ${efGlobal.toLocaleString('es-PE', {minimumFractionDigits:0})}`;
+                    document.getElementById('box-yape-total').innerText = `S/ ${yGlobal.toLocaleString('es-PE', {minimumFractionDigits:0})}`;
+                    document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE', {minimumFractionDigits:0})}`;
 
-                    // Tarjetas de Alumnos
                     let mAlumnos = getVal(tRow.c[2], true);
                     let pActuales = getVal(tRow.c[3], true);
                     document.getElementById('box-meta-alumnos').innerText = mAlumnos;
@@ -340,25 +332,22 @@
             tbody.innerHTML = '';
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40";
+                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40 text-xs";
                 tr.innerHTML = `
-                    <td class="py-4 px-5 font-semibold text-slate-200 whitespace-nowrap">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="h-2 w-2 rounded-full ${row.avance >= 100 ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]' : 'bg-indigo-400'}"></div>
+                    <td class="py-3 px-2 font-bold text-slate-100 break-words sm:break-normal">
+                        <div class="flex items-center space-x-1.5">
+                            <div class="h-1.5 w-1.5 rounded-full flex-shrink-0 ${row.avance >= 100 ? 'bg-emerald-400' : 'bg-indigo-400'}"></div>
                             <span>${row.tutor}</span>
                         </div>
                     </td>
-                    <td class="py-4 px-4 whitespace-nowrap">
-                        <span class="bg-slate-800 text-slate-300 text-[11px] font-bold px-2 py-0.5 rounded-md">${row.ciclo}</span>
-                    </td>
-                    <td class="py-4 px-4 text-center font-medium">${row.metaEst}</td>
-                    <td class="py-4 px-4 text-center font-medium">${row.pagantes}</td>
-                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
-                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
-                    <td class="py-4 px-4 text-right text-slate-400 whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
-                    <td class="py-4 px-5 text-right font-bold text-emerald-400 whitespace-nowrap">S/ ${row.recaudado.toLocaleString('es-PE', {minimumFractionDigits:2})}</td>
-                    <td class="py-4 px-5 text-center">
-                        <span class="px-2 py-1 rounded text-xs font-bold ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}">${row.avance}%</span>
+                    <td class="py-3 px-2 text-slate-400 font-medium break-all sm:break-normal">${row.ciclo}</td>
+                    <td class="py-3 px-2 text-right font-bold text-amber-400">S/ ${row.metaDinero.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
+                    <td class="py-3 px-2 text-right font-bold text-sky-400">S/ ${row.efectivo.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
+                    <td class="py-3 px-2 text-right font-bold text-violet-400">S/ ${row.yape.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
+                    <td class="py-3 px-2 text-right font-black text-emerald-400">S/ ${row.recaudado.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
+                    <td class="py-3 px-2 text-right font-bold ${row.falta < 0 ? 'text-emerald-400' : 'text-rose-400'}">S/ ${row.falta.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
+                    <td class="py-3 px-2 text-center">
+                        <span class="px-1.5 py-0.5 rounded font-extrabold ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}">${row.avance}%</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -441,7 +430,7 @@
         }
 
         loadDashboardData();
-        setInterval(loadDashboardData, 60000); // Sincronización automática de fondo cada minuto
+        setInterval(loadDashboardData, 60000);
     </script>
 </body>
 </html>
