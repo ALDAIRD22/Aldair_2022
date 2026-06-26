@@ -40,7 +40,6 @@
             <div class="flex flex-col items-center justify-center space-y-3 mt-6">
                 <p id="welcome-loading" class="text-slate-400 font-medium tracking-widest uppercase text-sm">Calculando datos en vivo...</p>
                 
-                <!-- Aquí se inyectan los porcentajes mágicamente -->
                 <div id="welcome-stats" class="hidden flex-col items-center space-y-2 mt-2">
                     <p class="text-6xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" id="welcome-avance">...%</p>
                     <div class="bg-rose-500/10 border border-rose-500/20 px-4 py-1.5 rounded-full mt-2">
@@ -55,7 +54,7 @@
     <header class="border-b border-slate-800 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
+                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -66,7 +65,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -151,7 +150,7 @@
             </div>
         </div>
 
-        <!-- VISTA 2: CLASIFICACIÓN -->
+        <!-- VISTA 2: CLASIFICACIÓN (RANKING MODIFICADO) -->
         <div id="view-clasificacion" class="tab-view hidden space-y-6">
             <div class="premium-card rounded-2xl p-6 shadow-xl max-w-2xl mx-auto">
                 <div class="mb-5 border-b border-slate-800/80 pb-3">
@@ -237,7 +236,7 @@
         let chartBar = null;
         let chartPie = null;
         let chartStudents = null;
-        let isFirstLoad = true; // Control de la pantalla de bienvenida
+        let isFirstLoad = true;
 
         function switchTab(targetId) {
             document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
@@ -314,7 +313,6 @@
                     document.getElementById('error-box').className = 'hidden';
                 }
 
-                // GESTIÓN DE LA PANTALLA DE BIENVENIDA (SPLASH SCREEN)
                 if (isFirstLoad) {
                     document.getElementById('welcome-avance').innerText = avanceGlobalNum + '% Avance';
                     let faltaProgreso = 100 - avanceGlobalNum;
@@ -372,8 +370,6 @@
             } catch (error) {
                 console.error(error);
                 document.getElementById('error-box').className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 block';
-                
-                // Ocultar pantalla de bienvenida en caso de error
                 const overlay = document.getElementById('welcome-overlay');
                 if (overlay) overlay.remove();
             }
@@ -409,6 +405,7 @@
             });
         }
 
+        // MODIFICACIÓN EN EL RENDERIZADO DEL RANKING PARA MOSTRAR CANTIDAD DE PAGANTES
         function renderLeaderboard(data) {
             const container = document.getElementById('leaderboard-container');
             container.innerHTML = '';
@@ -435,7 +432,8 @@
                     </div>
                     <div class="text-right ml-2 flex-shrink-0">
                         <p class="text-sm font-bold text-white">${row.avance}%</p>
-                        <p class="text-[10px] text-slate-400">S/ ${row.recaudado.toLocaleString('es-PE')}</p>
+                        <!-- CORREGIDO: AHORA MUESTRA LA CANTIDAD REAL DE ALUMNOS PAGANTES EN VEZ DE LA MONEDA -->
+                        <p class="text-[11px] text-sky-400 font-bold">${row.pagantes} pagantes</p>
                     </div>
                 `;
                 container.appendChild(item);
@@ -511,8 +509,8 @@
                         }
                     },
                     scales: {
-                        x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } }, grid: { display: false } },
-                        y: { grace: '15%', grid: { color: 'rgba(51, 65, 85, 0.15)' }, ticks: { color: '#64748b' } }
+                        x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
+                        y: { grace: '15%', grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } }
                     }
                 }
             });
