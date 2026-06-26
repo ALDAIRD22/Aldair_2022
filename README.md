@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Librería para mostrar números sobre las barras de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -31,7 +33,7 @@
     <header class="border-b border-slate-800 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl tracking-wider">V</div>
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-bold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -50,7 +52,7 @@
     <!-- Alerta de Sincronización -->
     <div id="error-box" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div class="bg-rose-500/10 border border-rose-500/20 text-rose-400 p-4 rounded-xl text-sm font-medium">
-            ⚠️ Alerta de Sincronización: No se pueden leer los datos. Asegúrate de verificar los permisos en tu Google Sheets.
+            ⚠️ Alerta de Sincronización: No se pueden leer los datos. Verifica que la hoja esté compartida como "Cualquier persona con el enlace".
         </div>
     </div>
 
@@ -103,7 +105,7 @@
             </div>
         </section>
 
-        <!-- VISTA 1: RESUMEN (GRÁFICOS AMPLIADOS) -->
+        <!-- VISTA 1: RESUMEN -->
         <div id="view-resumen" class="tab-view space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 premium-card rounded-2xl p-6 shadow-xl">
@@ -120,10 +122,10 @@
                 </div>
             </div>
             
-            <!-- NUEVO GRÁFICO DE BARRAS PARA CONTROL DE ALUMNOS -->
+            <!-- GRÁFICA DE BARRAS CON VALORES VISIBLES -->
             <div class="premium-card rounded-2xl p-6 shadow-xl">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-5">Control General de Alumnos (Matriculados vs Meta vs Pagantes)</h3>
-                <div class="relative h-72"><canvas id="chartStudents"></canvas></div>
+                <div class="relative h-80"><canvas id="chartStudents"></canvas></div>
             </div>
         </div>
 
@@ -427,26 +429,46 @@
                 }
             });
 
-            // NUEVA CONFIGURACIÓN: GRÁFICA VERTICAL COMPARTIDA DE ALUMNOS GLOBALES
+            // CONFIGURACIÓN MEJORADA CON EXTRACCIÓN DE NÚMEROS INTEGRADOS
             const ctxStudents = document.getElementById('chartStudents').getContext('2d');
             if (chartStudents) { chartStudents.destroy(); }
             chartStudents = new Chart(ctxStudents, {
                 type: 'bar',
+                plugins: [ChartDataLabels], // Activa el plugin de números flotantes
                 data: {
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
                         data: [matrGlobal, metaAlGlobal, pagGlobal],
                         backgroundColor: ['#6366f1', '#f97316', '#38bdf8'],
                         borderRadius: 6,
-                        barThickness: 35
+                        barThickness: 45
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: { // Configuración estética para que se vean claro los números
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#f8fafc', // Blanco hueso de alta visibilidad
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                weight: '800',
+                                size: 14
+                            },
+                            formatter: function(value) {
+                                return Math.round(value).toLocaleString('es-PE');
+                            }
+                        }
+                    },
                     scales: {
-                        x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
-                        y: { grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } }
+                        x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } }, grid: { display: false } },
+                        y: { 
+                            grace: '15%', // Da un margen arriba del 15% para que los números no choquen con el techo
+                            grid: { color: 'rgba(51, 65, 85, 0.15)' }, 
+                            ticks: { color: '#64748b' } 
+                        }
                     }
                 }
             });
@@ -456,4 +478,4 @@
         setInterval(loadDashboardData, 60000);
     </script>
 </body>
-</html>
+</html> 
