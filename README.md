@@ -15,22 +15,23 @@
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at top right, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+            background: radial-gradient(circle at top right, #13113c 0%, #090d1f 60%, #02040a 100%);
         }
+        /* MODIFICADO: Fondo mucho más oscuro, opaco y sólido para los cuadros principales */
         .premium-card {
-            background: rgba(22, 30, 49, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
+            background: rgba(10, 16, 32, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
         }
         .nav-card {
             transition: all 0.25s ease;
         }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen antialiased">
+<body class="text-slate-200 min-h-screen antialiased">
 
     <!-- PANTALLA DE BIENVENIDA (SPLASH SCREEN) -->
-    <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center transition-opacity duration-700 opacity-100">
+    <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-slate-950 backdrop-blur-2xl flex items-center justify-center transition-opacity duration-700 opacity-100">
         <div class="text-center space-y-6 transform transition-all scale-100 animate-pulse" id="welcome-content">
             <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-[0_0_40px_rgba(99,102,241,0.4)] mb-2">
                 <span class="text-5xl text-white font-black">V</span>
@@ -51,10 +52,10 @@
     </div>
 
     <!-- Encabezado -->
-    <header class="border-b border-slate-800 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
+    <header class="border-b border-slate-900 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl tracking-wider">V</div>
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -65,7 +66,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -81,29 +82,29 @@
         
         <!-- MENÚ DE NAVEGACIÓN POR TARJETAS -->
         <nav class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
+            <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/80 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
                 <div class="text-3xl">📊</div>
                 <div class="text-sm font-bold text-white mt-3">Resumen</div>
                 <div class="text-[11px] text-indigo-300 mt-1 font-medium">Gráficos y Distribución</div>
             </button>
-            <button onclick="switchTab('view-clasificacion')" id="btn-view-clasificacion" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+            <button onclick="switchTab('view-clasificacion')" id="btn-view-clasificacion" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50">
                 <div class="text-3xl">🏆</div>
-                <div class="text-sm font-bold text-slate-300 mt-3">Clasificación</div>
+                <div class="text-sm font-bold text-slate-400 mt-3">Clasificación</div>
                 <div class="text-[11px] text-slate-500 mt-1 font-medium">Ranking de Posiciones</div>
             </button>
-            <button onclick="switchTab('view-pagos')" id="btn-view-pagos" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+            <button onclick="switchTab('view-pagos')" id="btn-view-pagos" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50">
                 <div class="text-3xl">💰</div>
-                <div class="text-sm font-bold text-slate-300 mt-3">Pagos</div>
+                <div class="text-sm font-bold text-slate-400 mt-3">Pagos</div>
                 <div class="text-[11px] text-slate-500 mt-1 font-medium">Efectivo vs Yape</div>
             </button>
-            <button onclick="switchTab('view-tutores')" id="btn-view-tutores" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50">
+            <button onclick="switchTab('view-tutores')" id="btn-view-tutores" class="nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50">
                 <div class="text-3xl">👩‍🏫</div>
-                <div class="text-sm font-bold text-slate-300 mt-3">Tutores</div>
+                <div class="text-sm font-bold text-slate-400 mt-3">Tutores</div>
                 <div class="text-[11px] text-slate-500 mt-1 font-medium">Tabla de Detalle General</div>
             </button>
         </nav>
 
-        <!-- TARJETAS DE INDICADORES GLOBALES (CORREGIDO A DOS DECIMALES) -->
+        <!-- TARJETAS DE INDICADORES GLOBALES -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">💰 Total recaudado</p>
@@ -111,7 +112,7 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
-                <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
+                <h3 class="text-3xl font-extrabold text-slate-300 mt-2 tracking-tight" id="txt-meta-global">...</h3>
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
@@ -164,18 +165,20 @@
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
-                    <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">💵 Efectivo vs Yape</h3></div>
+                    <div class="border-b border-slate-800/80 pb-3">
+                        <h3 class="text-base font-bold text-white tracking-tight">💵 Efectivo vs Yape</h3>
+                    </div>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400">Efectivo</span>
+                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
+                            <span class="text-sm text-slate-400 font-medium">Efectivo</span>
                             <span class="text-lg font-bold text-sky-400" id="box-efectivo-total">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400">Yape</span>
+                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
+                            <span class="text-sm text-slate-400 font-medium">Yape</span>
                             <span class="text-lg font-bold text-violet-400" id="box-yape-total">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-slate-700/30">
-                            <span class="text-sm text-slate-200 font-semibold">Total recolectado</span>
+                        <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
+                            <span class="text-sm text-slate-300 font-semibold">Total recolectado</span>
                             <span class="text-xl font-black text-emerald-400" id="box-recaudado-total">...</span>
                         </div>
                     </div>
@@ -183,15 +186,15 @@
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
                     <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">👥 Pagantes vs Meta</h3></div>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400">Meta total alumnos</span>
-                            <span class="text-lg font-bold text-slate-200" id="box-meta-alumnos">...</span>
+                            <span class="text-lg font-bold text-slate-300" id="box-meta-alumnos">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
+                        <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-slate-400">Pagantes actuales</span>
                             <span class="text-lg font-bold text-sky-400" id="box-pagantes-actuales">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-rose-500/20 bg-rose-500/5">
+                        <div class="flex justify-between items-center bg-slate-900/60 p-4 rounded-xl border border-slate-800/40">
                             <span class="text-sm text-rose-300 font-semibold">Faltan</span>
                             <span class="text-xl font-black text-rose-400" id="box-pagantes-falta">...</span>
                         </div>
@@ -203,12 +206,13 @@
         <!-- VISTA 4: TABLA DE TUTORES -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
-                <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
+                <div class="p-5 border-b border-slate-800/80 bg-slate-950/40">
                     <h3 class="text-base font-bold text-white tracking-tight">Detalle por Tutor</h3>
                 </div>
                 <div class="w-full overflow-x-auto lg:overflow-x-hidden">
                     <table class="w-full text-left border-collapse text-[11px] sm:text-xs">
                         <thead>
+                            <!-- MODIFICADO: bg-slate-950 puro para máxima opacidad y contraste -->
                             <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800 text-[10px]">
                                 <th class="py-3.5 px-3">Tutor</th>
                                 <th class="py-3.5 px-2">Ciclo</th>
@@ -223,7 +227,7 @@
                                 <th class="py-3.5 px-3 text-center">Avance</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/40 font-semibold text-slate-300" id="table-body-tutors"></tbody>
+                        <tbody class="divide-y divide-slate-900/60 bg-slate-950/40 font-semibold text-slate-300" id="table-body-tutors"></tbody>
                     </table>
                 </div>
             </section>
@@ -233,7 +237,7 @@
     <script>
         const SHEET_JSON_URL = 'https://docs.google.com/spreadsheets/d/1z2qJzZMr5c_lTLUDU2uXEZpUJ8JhL-tq8COC5GXKcVQ/gviz/tq?tqx=out:json&gid=6209676';
 
-        let chartBar = null;
+        let myChart = null;
         let chartPie = null;
         let chartStudents = null;
         let isFirstLoad = true;
@@ -243,9 +247,9 @@
             document.getElementById(targetId).classList.remove('hidden');
 
             document.querySelectorAll('.nav-card').forEach(btn => {
-                btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-800/30 hover:border-slate-700/50";
+                btn.className = "nav-card premium-card text-left rounded-2xl p-5 hover:bg-slate-900/60 hover:border-slate-800/50";
             });
-            document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
+            document.getElementById('btn-' + targetId).className = "nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-950/90 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5";
         }
 
         function getVal(cell, isNum = false) {
@@ -276,7 +280,6 @@
                 let totalsIndex = rows.findIndex(r => r && r.c && r.c[0] && getVal(r.c[0]).trim().toUpperCase() === 'TOTALES');
                 if (totalsIndex === -1) totalsIndex = rows.length - 2;
 
-                // Fila de los montos totales unificada
                 const tRow = rows[totalsIndex];
                 let efGlobal = 0, yGlobal = 0, matrGlobal = 0, metaAlGlobal = 0, pagGlobal = 0;
                 let avanceGlobalNum = 0;
@@ -288,7 +291,6 @@
                     efGlobal = getVal(tRow.c[6], true);
                     yGlobal = getVal(tRow.c[7], true);
 
-                    // AHORA SE LE AGREGA FORMATO DE DOS DECIMALES FIJOS (.00) A TODAS LAS TARJETAS SUPERIORES
                     document.getElementById('txt-meta-global').innerText = `Meta Total: S/ ${getVal(tRow.c[5], true).toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     document.getElementById('txt-recaudado-global').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     document.getElementById('txt-falta-global').innerText = `S/ ${getVal(tRow.c[9], true).toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
@@ -304,7 +306,6 @@
                     document.getElementById('txt-avance-global').innerText = avanceGlobalNum + '%';
                     document.getElementById('bar-avance-global').style.width = avanceGlobalNum + '%';
 
-                    // Formato de dos decimales fijos a las vistas internas de Balances
                     document.getElementById('box-efectivo-total').innerText = `S/ ${efGlobal.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     document.getElementById('box-yape-total').innerText = `S/ ${yGlobal.toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                     document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
@@ -383,9 +384,10 @@
             tbody.innerHTML = '';
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40 text-xs";
+                tr.className = "hover:bg-slate-900/80 transition-colors border-b border-slate-900/60 text-xs";
                 tr.innerHTML = `
-                    <td class="py-3 px-3 font-bold text-slate-100 whitespace-nowrap">
+                    <!-- MODIFICADO: Suavizado a text-slate-200 para reducir el brillo blanco puro -->
+                    <td class="py-3 px-3 font-bold text-slate-200 whitespace-nowrap">
                         <div class="flex items-center space-x-1">
                             <div class="h-1.5 w-1.5 rounded-full flex-shrink-0 ${row.avance >= 100 ? 'bg-emerald-400' : 'bg-indigo-400'}"></div>
                             <span>${row.tutor}</span>
@@ -408,16 +410,18 @@
             });
         }
 
+        function borderAlphaFix(index) {
+            return index === 0 ? 'bg-amber-500/10 border-amber-500/30' : 
+                   index === 1 ? 'bg-slate-300/10 border-slate-400/30' : 
+                   index === 2 ? 'bg-amber-700/10 border-amber-700/30' : 'bg-slate-900/40 border-slate-800/60';
+        }
+
         function renderLeaderboard(data) {
             const container = document.getElementById('leaderboard-container');
             container.innerHTML = '';
             data.forEach((row, index) => {
                 const item = document.createElement('div');
-                item.className = `flex items-center justify-between p-4 rounded-xl border ${
-                    index === 0 ? 'bg-amber-500/10 border-amber-500/30' : 
-                    index === 1 ? 'bg-slate-300/10 border-slate-400/30' : 
-                    index === 2 ? 'bg-amber-700/10 border-amber-700/30' : 'bg-slate-800/30 border-slate-700/50'
-                }`;
+                item.className = `flex items-center justify-between p-4 rounded-xl border ${borderAlphaFix(index)}`;
                 
                 let medal = `<span class="text-sm font-bold text-slate-400 w-6">${index + 1}</span>`;
                 if (index === 0) medal = `<span class="text-xl w-6">🥇</span>`;
@@ -487,7 +491,6 @@
             if (chartStudents) { chartStudents.destroy(); }
             chartStudents = new Chart(ctxStudents, {
                 type: 'bar',
-                plugins: [ChartDataLabels],
                 data: {
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
@@ -504,7 +507,7 @@
                         datalabels: {
                             anchor: 'end',
                             align: 'top',
-                            color: '#f8fafc',
+                            color: '#cbd5e1',
                             font: { family: 'Plus Jakarta Sans', weight: '800', size: 14 },
                             formatter: function(value) { return Math.round(value).toLocaleString('es-PE'); }
                         }
@@ -513,7 +516,8 @@
                         x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
                         y: { grace: '15%', grid: { color: 'rgba(51, 65, 85, 0.2)' }, ticks: { color: '#94a3b8' } }
                     }
-                }
+                },
+                plugins: [ChartDataLabels]
             });
         }
 
