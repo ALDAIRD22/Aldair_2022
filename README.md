@@ -47,7 +47,7 @@
         </div>
     </header>
 
-    <!-- Alerta de Sincronización Literal -->
+    <!-- Alerta de Sincronización -->
     <div id="error-box" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div class="bg-rose-500/10 border border-rose-500/20 text-rose-400 p-4 rounded-xl text-sm font-medium">
             ⚠️ Alerta de Sincronización: No se pueden leer los datos. Verifica que la hoja esté compartida como "Cualquier persona con el enlace".
@@ -56,7 +56,7 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        <!-- MENÚ DE NAVEGACIÓN POR TARJETAS -->
+        <!-- MENÚ DE NAVEGACIÓN -->
         <nav class="grid grid-cols-2 lg:grid-cols-4 gap-5">
             <button onclick="switchTab('view-resumen')" id="btn-view-resumen" class="nav-card premium-card text-left rounded-2xl p-5 border-indigo-500/40 bg-indigo-500/5 ring-1 ring-indigo-500/20 shadow-lg shadow-indigo-500/5">
                 <div class="text-3xl">📊</div>
@@ -80,38 +80,30 @@
             </button>
         </nav>
 
-        <!-- TARJETAS DE INDICADORES GLOBALES (SIEMPRE VISIBLES) -->
+        <!-- INDICADORES SUPERIORES -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
-                <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">💰 Total recaudado</p>
-                    <h3 class="text-3xl font-extrabold text-emerald-400 mt-2 tracking-tight" id="txt-recaudado-global">...</h3>
-                </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">💰 Total recaudado</p>
+                <h3 class="text-3xl font-extrabold text-emerald-400 mt-2 tracking-tight" id="txt-recaudado-global">...</h3>
             </div>
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
-                <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
-                    <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
-                </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">🎯 Meta en efectivo</p>
+                <h3 class="text-3xl font-extrabold text-slate-100 mt-2 tracking-tight" id="txt-meta-global">...</h3>
             </div>
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
-                <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
-                    <h3 class="text-3xl font-extrabold text-rose-400 mt-2 tracking-tight" id="txt-falta-global">...</h3>
-                </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">⚠️ Falta recaudar</p>
+                <h3 class="text-3xl font-extrabold text-rose-400 mt-2 tracking-tight" id="txt-falta-global">...</h3>
             </div>
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden">
-                <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">📈 Avance general</p>
-                    <h3 class="text-3xl font-extrabold text-indigo-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
-                </div>
+            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">📈 Avance general</p>
+                <h3 class="text-3xl font-extrabold text-indigo-400 mt-2 tracking-tight" id="txt-avance-global">...</h3>
                 <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
                     <div id="bar-avance-global" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
         </section>
 
-        <!-- VISTA 1: 100% GRÁFICOS Y RESUMEN -->
+        <!-- VISTA 1: RESUMEN -->
         <div id="view-resumen" class="tab-view space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 premium-card rounded-2xl p-6 shadow-xl">
@@ -129,53 +121,45 @@
             </div>
         </div>
 
-        <!-- VISTA 2: RANKING DE CLASIFICACIÓN -->
+        <!-- VISTA 2: CLASIFICACIÓN -->
         <div id="view-clasificacion" class="tab-view hidden space-y-6">
             <div class="premium-card rounded-2xl p-6 shadow-xl max-w-2xl mx-auto">
                 <div class="mb-5 border-b border-slate-800/80 pb-3">
                     <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">🏆 Ranking de tutores</h3>
-                    <p class="text-xs text-slate-400 mt-1">Clasificación de posiciones ordenada por porcentaje de avance logrado</p>
                 </div>
                 <div class="space-y-4" id="leaderboard-container"></div>
             </div>
         </div>
 
-        <!-- VISTA 3: BALANCE DE METAS Y PAGOS -->
+        <!-- VISTA 3: BALANCE DE PAGOS -->
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Tarjeta Métricas Efectivo vs Yape -->
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
-                    <div class="border-b border-slate-800/80 pb-3">
-                        <h3 class="text-base font-bold text-white tracking-tight">💵 Efectivo vs Yape</h3>
-                    </div>
+                    <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">💵 Efectivo vs Yape</h3></div>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400 font-medium">Efectivo</span>
+                            <span class="text-sm text-slate-400">Efectivo</span>
                             <span class="text-lg font-bold text-sky-400" id="box-efectivo-total">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400 font-medium">Yape</span>
+                            <span class="text-sm text-slate-400">Yape</span>
                             <span class="text-lg font-bold text-violet-400" id="box-yape-total">...</span>
                         </div>
-                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-slate-700/30 bg-slate-950/20">
+                        <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-slate-700/30">
                             <span class="text-sm text-slate-200 font-semibold">Total recolectado</span>
                             <span class="text-xl font-black text-emerald-400" id="box-recaudado-total">...</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Tarjeta Alumnos de la Pestaña -->
                 <div class="premium-card rounded-2xl p-6 shadow-xl space-y-5">
-                    <div class="border-b border-slate-800/80 pb-3">
-                        <h3 class="text-base font-bold text-white tracking-tight">👥 Pagantes vs Meta</h3>
-                    </div>
+                    <div class="border-b border-slate-800/80 pb-3"><h3 class="text-base font-bold text-white">👥 Pagantes vs Meta</h3></div>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400 font-medium">Meta total alumnos</span>
+                            <span class="text-sm text-slate-400">Meta total alumnos</span>
                             <span class="text-lg font-bold text-slate-200" id="box-meta-alumnos">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
-                            <span class="text-sm text-slate-400 font-medium">Pagantes actuales</span>
+                            <span class="text-sm text-slate-400">Pagantes actuales</span>
                             <span class="text-lg font-bold text-sky-400" id="box-pagantes-actuales">...</span>
                         </div>
                         <div class="flex justify-between items-center bg-slate-900/20 p-4 rounded-xl border border-rose-500/20 bg-rose-500/5">
@@ -187,27 +171,30 @@
             </div>
         </div>
 
-        <!-- VISTA 4: TABLA DE TUTORES COMPACTA Y SIN DESPLAZAMIENTO HORIZONTAL -->
+        <!-- VISTA 4: GRILLA COMPACTA DE TUTORES CON COLORES -->
         <div id="view-tutores" class="tab-view hidden space-y-6">
             <section class="premium-card rounded-2xl overflow-hidden shadow-2xl">
                 <div class="p-5 border-b border-slate-800/80 bg-slate-950/20">
                     <h3 class="text-base font-bold text-white tracking-tight">Detalle por Tutor</h3>
                 </div>
-                <div class="w-full overflow-x-hidden"> <!-- Evita desborde horizontal -->
-                    <table class="w-full text-left border-collapse table-fixed md:table-auto text-xs">
+                <div class="w-full overflow-x-auto lg:overflow-x-hidden"> <!-- Ajuste de protección -->
+                    <table class="w-full text-left border-collapse text-[11px] sm:text-xs">
                         <thead>
                             <tr class="bg-slate-950/50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800 text-[10px]">
-                                <th class="py-3 px-2 w-[22%] sm:w-auto">Tutor</th>
-                                <th class="py-3 px-2 w-[18%] sm:w-auto">Ciclo</th>
-                                <th class="py-3 px-2 text-right">Meta (S/)</th>
-                                <th class="py-3 px-2 text-right">Efectivo</th>
-                                <th class="py-3 px-2 text-right">Yape</th>
-                                <th class="py-3 px-2 text-right">Total</th>
-                                <th class="py-3 px-2 text-right">Falta</th>
-                                <th class="py-3 px-2 text-center">Avance</th>
+                                <th class="py-3.5 px-3">Tutor</th>
+                                <th class="py-3.5 px-2">Ciclo</th>
+                                <th class="py-3.5 px-2 text-center">Matr.</th>
+                                <th class="py-3.5 px-2 text-center text-orange-400/90">Meta</th>
+                                <th class="py-3.5 px-2 text-center text-sky-400/90">Pag.</th>
+                                <th class="py-3.5 px-2 text-right text-amber-400/90">Meta (S/)</th>
+                                <th class="py-3.5 px-2 text-right text-teal-400/90">Efectivo</th>
+                                <th class="py-3.5 px-2 text-right text-violet-400/90">Yape</th>
+                                <th class="py-3.5 px-2 text-right text-emerald-400">Total</th>
+                                <th class="py-3.5 px-2 text-right text-rose-400">Falta</th>
+                                <th class="py-3.5 px-3 text-center">Avance</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/40 font-medium text-slate-300" id="table-body-tutors"></tbody>
+                        <tbody class="divide-y divide-slate-800/40 font-semibold text-slate-300" id="table-body-tutors"></tbody>
                     </table>
                 </div>
             </section>
@@ -262,26 +249,26 @@
                 let efGlobal = 0, yGlobal = 0;
 
                 if(tRow && tRow.c) {
-                    efGlobal = getVal(tRow.c[5], true);
-                    yGlobal = getVal(tRow.c[6], true);
+                    efGlobal = getVal(tRow.c[6], true);
+                    yGlobal = getVal(tRow.c[7], true);
 
-                    document.getElementById('txt-meta-global').innerText = `Meta Total: S/ ${getVal(tRow.c[4], true).toLocaleString('es-PE')}`;
-                    document.getElementById('txt-recaudado-global').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE')}`;
-                    document.getElementById('txt-falta-global').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE')}`;
+                    document.getElementById('txt-meta-global').innerText = `Meta Total: S/ ${getVal(tRow.c[5], true).toLocaleString('es-PE')}`;
+                    document.getElementById('txt-recaudado-global').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE')}`;
+                    document.getElementById('txt-falta-global').innerText = `S/ ${getVal(tRow.c[9], true).toLocaleString('es-PE')}`;
                     
-                    let avanceStr = getVal(tRow.c[9]);
-                    let avanceGlobalNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(tRow.c[9], true) * 100);
-                    if (avanceStr && !avanceStr.includes('%') && getVal(tRow.c[9], true) <= 1.5) avanceGlobalNum = Math.round(getVal(tRow.c[9], true) * 100);
+                    let avanceStr = getVal(tRow.c[10]);
+                    let avanceGlobalNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(tRow.c[10], true) * 100);
+                    if (avanceStr && !avanceStr.includes('%') && getVal(tRow.c[10], true) <= 1.5) avanceGlobalNum = Math.round(getVal(tRow.c[10], true) * 100);
                     
                     document.getElementById('txt-avance-global').innerText = avanceGlobalNum + '%';
                     document.getElementById('bar-avance-global').style.width = avanceGlobalNum + '%';
 
                     document.getElementById('box-efectivo-total').innerText = `S/ ${efGlobal.toLocaleString('es-PE', {minimumFractionDigits:0})}`;
                     document.getElementById('box-yape-total').innerText = `S/ ${yGlobal.toLocaleString('es-PE', {minimumFractionDigits:0})}`;
-                    document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[7], true).toLocaleString('es-PE', {minimumFractionDigits:0})}`;
+                    document.getElementById('box-recaudado-total').innerText = `S/ ${getVal(tRow.c[8], true).toLocaleString('es-PE', {minimumFractionDigits:0})}`;
 
-                    let mAlumnos = getVal(tRow.c[2], true);
-                    let pActuales = getVal(tRow.c[3], true);
+                    let mAlumnos = getVal(tRow.c[3], true);
+                    let pActuales = getVal(tRow.c[4], true);
                     document.getElementById('box-meta-alumnos').innerText = mAlumnos;
                     document.getElementById('box-pagantes-actuales').innerText = pActuales;
                     document.getElementById('box-pagantes-falta').innerText = (mAlumnos - Math.floor(pActuales));
@@ -297,20 +284,21 @@
                     let tutorName = getVal(row.c[0]).trim();
                     if (tutorName === '' || tutorName.toUpperCase() === 'TUTOR' || tutorName.toUpperCase() === 'TOTALES') continue;
 
-                    let avanceStr = getVal(row.c[9]);
-                    let avanceNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(row.c[9], true) * 100);
-                    if (avanceStr && !avanceStr.includes('%') && getVal(row.c[9], true) <= 1.5) avanceNum = Math.round(getVal(row.c[9], true) * 100);
+                    let avanceStr = getVal(row.c[10]);
+                    let avanceNum = avanceStr.includes('%') ? parseInt(avanceStr) : Math.round(getVal(row.c[10], true) * 100);
+                    if (avanceStr && !avanceStr.includes('%') && getVal(row.c[10], true) <= 1.5) avanceNum = Math.round(getVal(row.c[10], true) * 100);
 
                     tutorsData.push({
                         tutor: tutorName,
                         ciclo: getVal(row.c[1]).trim(),
-                        metaEst: getVal(row.c[2], true),
-                        pagantes: getVal(row.c[3], true),
-                        metaDinero: getVal(row.c[4], true),
-                        efectivo: getVal(row.c[5], true),
-                        yape: getVal(row.c[6], true),
-                        recaudado: getVal(row.c[7], true),
-                        falta: getVal(row.c[8], true),
+                        matriculados: getVal(row.c[2], true),
+                        metaEst: getVal(row.c[3], true),
+                        pagantes: getVal(row.c[4], true),
+                        metaDinero: getVal(row.c[5], true),
+                        efectivo: getVal(row.c[6], true),
+                        yape: getVal(row.c[7], true),
+                        recaudado: getVal(row.c[8], true),
+                        falta: getVal(row.c[9], true),
                         avance: avanceNum
                     });
                 }
@@ -332,22 +320,25 @@
             tbody.innerHTML = '';
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40 text-xs";
+                tr.className = "hover:bg-slate-800/30 transition-colors border-b border-slate-800/40";
                 tr.innerHTML = `
-                    <td class="py-3 px-2 font-bold text-slate-100 break-words sm:break-normal">
-                        <div class="flex items-center space-x-1.5">
+                    <td class="py-3 px-3 font-bold text-slate-100 whitespace-nowrap">
+                        <div class="flex items-center space-x-1">
                             <div class="h-1.5 w-1.5 rounded-full flex-shrink-0 ${row.avance >= 100 ? 'bg-emerald-400' : 'bg-indigo-400'}"></div>
                             <span>${row.tutor}</span>
                         </div>
                     </td>
-                    <td class="py-3 px-2 text-slate-400 font-medium break-all sm:break-normal">${row.ciclo}</td>
-                    <td class="py-3 px-2 text-right font-bold text-amber-400">S/ ${row.metaDinero.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
-                    <td class="py-3 px-2 text-right font-bold text-sky-400">S/ ${row.efectivo.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
-                    <td class="py-3 px-2 text-right font-bold text-violet-400">S/ ${row.yape.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
-                    <td class="py-3 px-2 text-right font-black text-emerald-400">S/ ${row.recaudado.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
-                    <td class="py-3 px-2 text-right font-bold ${row.falta < 0 ? 'text-emerald-400' : 'text-rose-400'}">S/ ${row.falta.toLocaleString('es-PE', {maximumFractionDigits:2})}</td>
-                    <td class="py-3 px-2 text-center">
-                        <span class="px-1.5 py-0.5 rounded font-extrabold ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}">${row.avance}%</span>
+                    <td class="py-3 px-2 text-slate-400 font-medium whitespace-nowrap">${row.ciclo}</td>
+                    <td class="py-3 px-2 text-center text-slate-300 font-semibold">${row.matriculados}</td>
+                    <td class="py-3 px-2 text-center text-orange-400 font-bold">${row.metaEst}</td>
+                    <td class="py-3 px-2 text-center text-sky-400 font-bold">${row.pagantes}</td>
+                    <td class="py-3 px-2 text-right text-amber-400 font-bold whitespace-nowrap">S/ ${row.metaDinero.toLocaleString('es-PE', {maximumFractionDigits:0})}</td>
+                    <td class="py-3 px-2 text-right text-teal-400 font-medium whitespace-nowrap">S/ ${row.efectivo.toLocaleString('es-PE', {maximumFractionDigits:0})}</td>
+                    <td class="py-3 px-2 text-right text-violet-400 font-medium whitespace-nowrap">S/ ${row.yape.toLocaleString('es-PE', {maximumFractionDigits:0})}</td>
+                    <td class="py-3 px-2 text-right font-black text-emerald-400 whitespace-nowrap">S/ ${row.recaudado.toLocaleString('es-PE', {maximumFractionDigits:0})}</td>
+                    <td class="py-3 px-2 text-right font-bold whitespace-nowrap ${row.falta < 0 ? 'text-emerald-400' : 'text-rose-400'}">S/ ${row.falta.toLocaleString('es-PE', {maximumFractionDigits:0})}</td>
+                    <td class="py-3 px-3 text-center">
+                        <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${row.avance >= 100 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}">${row.avance}%</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
