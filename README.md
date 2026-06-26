@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Institucional - Olimpiadas Vonex 2026</title>
+    <title>Dashboard - Olimpiadas Vonex 2026</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -18,7 +18,7 @@
             background: radial-gradient(circle at top right, #0a183d 0%, #050a1a 60%, #010307 100%);
         }
         .premium-card {
-            background: rgba(11, 20, 38, 0.95);
+            background: rgba(10, 16, 32, 0.95);
             border: 1px solid rgba(56, 189, 248, 0.1);
             backdrop-filter: blur(20px);
         }
@@ -174,7 +174,7 @@
             </div>
         </div>
 
-        <!-- VISTA 3: BALANCE DE PAGOS CON DESGLOSE POR TUTOR -->
+        <!-- VISTA 3: BALANCE DE PAGOS -->
         <div id="view-pagos" class="tab-view hidden space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 
@@ -396,12 +396,15 @@
                     });
                 }
 
-                renderTable(tutorsData);
-                renderCharts(tutorsData, efGlobal, yGlobal, matrGlobal, metaAlGlobal, pagGlobal);
-                renderPagosLists(tutorsData);
-
-                const rankedData = [...tutorsData].sort((a, b) => b.avance - a.avance);
-                renderLeaderboard(rankedData);
+                // LLAMADAS INDEPENDIENTES CON PROTECCIÓN EXTREMA (BLINDAJE DE ERRORES)
+                try { renderTable(tutorsData); } catch(e) { console.error(e); }
+                try { renderPagosLists(tutorsData); } catch(e) { console.error(e); }
+                try { renderCharts(tutorsData, efGlobal, yGlobal, matrGlobal, metaAlGlobal, pagGlobal); } catch(e) { console.error(e); }
+                
+                try {
+                    const rankedData = [...tutorsData].sort((a, b) => b.avance - a.avance);
+                    renderLeaderboard(rankedData);
+                } catch(e) { console.error(e); }
 
             } catch (error) {
                 console.error(error);
@@ -487,7 +490,7 @@
 
             data.forEach(row => {
                 const itemEf = document.createElement('div');
-                itemEf.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-850 flex justify-between items-center hover:bg-slate-900/40 transition-colors";
+                itemEf.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-800 flex justify-between items-center hover:bg-slate-900/40 transition-colors mb-2";
                 itemEf.innerHTML = `
                     <div class="truncate pr-2">
                         <p class="text-[11px] font-bold text-slate-200 truncate">${row.tutor}</p>
@@ -507,7 +510,7 @@
                 listEfYape.appendChild(itemEf);
 
                 const itemPag = document.createElement('div');
-                itemPag.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-850 flex justify-between items-center hover:bg-slate-900/40 transition-colors";
+                itemPag.className = "bg-slate-950/40 p-3 rounded-xl border border-slate-800 flex justify-between items-center hover:bg-slate-900/40 transition-colors mb-2";
                 
                 let faltaText = row.falta < 0 ? 'Sobran' : 'Faltan';
                 let faltaColor = row.falta < 0 ? 'text-emerald-400' : 'text-rose-400';
@@ -538,90 +541,96 @@
         }
 
         function renderCharts(data, efectivoGlobal, yapeGlobal, matrGlobal, metaAlGlobal, pagGlobal) {
-            const ctxBar = document.getElementById('chartTutors').getContext('2d');
-            if (chartBar) { chartBar.destroy(); }
-            chartBar = new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: data.map(r => r.tutor.split(' ')[0] + ' ' + (r.tutor.split(' ')[1] || '')),
-                    datasets: [
-                        { label: 'Meta Asignada (S/)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
-                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: '#10b981', borderRadius: 4 },
-                        { label: 'Falta Recaudar (S/)', data: data.map(r => r.falta > 0 ? r.falta : 0), backgroundColor: '#ef4444', borderRadius: 4 }
-                    ]
-                },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8' } }, datalabels: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } },
-                        y: { ticks: { color: '#e2e8f0' } }
-                    }
-                }
-            });
-
-            const ctxPie = document.getElementById('chartDoughnut').getContext('2d');
-            if (chartPie) { chartPie.destroy(); }
-            chartPie = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Efectivo', 'Yape'],
-                    datasets: [{
-                        data: [efectivoGlobal, yapeGlobal],
-                        backgroundColor: ['#22d3ee', '#6366f1'],
-                        borderColor: '#0f172a', borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, datalabels: { display: false } },
-                    cutout: '75%'
-                }
-            });
-
-            const ctxStudents = document.getElementById('chartStudents').getContext('2d');
-            if (chartStudents) { chartStudents.destroy(); }
-            chartStudents = new Chart(ctxStudents, {
-                type: 'bar',
-                data: {
-                    labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
-                    datasets: [{
-                        data: [matrGlobal, metaAlGlobal, pagGlobal],
-                        backgroundColor: ['#2563eb', '#f97316', '#06b6d4'],
-                        borderRadius: 6,
-                        barThickness: 45
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top',
-                            color: '#cbd5e1',
-                            font: { family: 'Plus Jakarta Sans', weight: '800', size: 14 },
-                            formatter: function(value) { return Math.round(value).toLocaleString('es-PE'); }
-                        }
+            try {
+                const ctxBar = document.getElementById('chartTutors').getContext('2d');
+                if (chartBar) { chartBar.destroy(); }
+                chartBar = new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(r => r.tutor.split(' ')[0] + ' ' + (r.tutor.split(' ')[1] || '')),
+                        datasets: [
+                            { label: 'Meta Asignada (S/)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
+                            { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: '#10b981', borderRadius: 4 },
+                            { label: 'Falta Recaudar (S/)', data: data.map(r => r.falta > 0 ? r.falta : 0), backgroundColor: '#ef4444', borderRadius: 4 }
+                        ]
                     },
-                    scales: {
-                        x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
-                        y: { grace: '15%', grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } }
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#94a3b8' } }, datalabels: { display: false } },
+                        scales: {
+                            x: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } },
+                            y: { ticks: { color: '#e2e8f0' } }
+                        }
                     }
-                },
-                plugins: [ChartDataLabels]
-            });
+                });
+            } catch(e) { console.error(e); }
+
+            try {
+                const ctxPie = document.getElementById('chartDoughnut').getContext('2d');
+                if (chartPie) { chartPie.destroy(); }
+                chartPie = new Chart(ctxPie, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Efectivo', 'Yape'],
+                        datasets: [{
+                            data: [efectivoGlobal, yapeGlobal],
+                            backgroundColor: ['#22d3ee', '#6366f1'],
+                            borderColor: '#0f172a', borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, datalabels: { display: false } },
+                        cutout: '75%'
+                    }
+                });
+            } catch(e) { console.error(e); }
+
+            try {
+                const ctxStudents = document.getElementById('chartStudents').getContext('2d');
+                if (chartStudents) { chartStudents.destroy(); }
+                
+                // Verificación y desactivación preventiva si el plugin lanza error CORS
+                let pluginArray = [];
+                let optionsDataLabels = { display: false };
+                
+                if (typeof ChartDataLabels !== 'undefined') {
+                    pluginArray.push(ChartDataLabels);
+                    optionsDataLabels = {
+                        anchor: 'end', align: 'top', color: '#cbd5e1',
+                        font: { family: 'Plus Jakarta Sans', weight: '800', size: 14 },
+                        formatter: function(value) { return Math.round(value).toLocaleString('es-PE'); }
+                    };
+                }
+
+                chartStudents = new Chart(ctxStudents, {
+                    type: 'bar',
+                    plugins: pluginArray,
+                    data: {
+                        labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
+                        datasets: [{
+                            data: [matrGlobal, metaAlGlobal, pagGlobal],
+                            backgroundColor: ['#2563eb', '#f97316', '#06b6d4'],
+                            borderRadius: 6, barThickness: 45
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            datalabels: optionsDataLabels
+                        },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600' } }, grid: { display: false } },
+                            y: { grace: '15%', grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8' } }
+                        }
+                    }
+                });
+            } catch(e) { console.error(e); }
         }
 
-        // Sistema de verificación asíncrona para asegurar la carga completa de librerías
-        function checkInit() {
-            if(window.Chart && window.navigator) {
-                loadDashboardData();
-            } else {
-                setTimeout(checkInit, 50);
-            }
-        }
-        checkInit();
+        loadDashboardData();
+        setInterval(loadDashboardData, 60000);
     </script>
 </body>
-</html> 
+</html>
