@@ -33,7 +33,7 @@
     <header class="border-b border-slate-800 bg-slate-950/40 backdrop-blur-xl sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3.5">
-                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-bold text-xl tracking-wider">V</div>
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white font-extrabold text-xl tracking-wider">V</div>
                 <div>
                     <h1 class="text-lg font-bold text-white tracking-tight">OLIMPIADAS VONEX 2026</h1>
                     <p class="text-xs text-slate-400">Control de pagos automatizado</p>
@@ -44,7 +44,7 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
+                <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-wider">Conectado en Vivo</span>
             </div>
         </div>
     </header>
@@ -122,7 +122,7 @@
                 </div>
             </div>
             
-            <!-- GRÁFICA DE BARRAS CON VALORES VISIBLES -->
+            <!-- GRÁFICA DE BARRAS CONTROL ALUMNOS -->
             <div class="premium-card rounded-2xl p-6 shadow-xl">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-5">Control General de Alumnos (Matriculados vs Meta vs Pagantes)</h3>
                 <div class="relative h-80"><canvas id="chartStudents"></canvas></div>
@@ -397,7 +397,9 @@
                     labels: data.map(r => r.tutor.split(' ')[0] + ' ' + (r.tutor.split(' ')[1] || '')),
                     datasets: [
                         { label: 'Meta Asignada (S/)', data: data.map(r => r.metaDinero), backgroundColor: 'rgba(71, 85, 105, 0.4)', borderRadius: 4 },
-                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: 'rgba(99, 102, 241, 0.8)', borderRadius: 4 }
+                        { label: 'Total Recaudado (S/)', data: data.map(r => r.recaudado), backgroundColor: 'rgba(16, 185, 129, 0.85)', borderRadius: 4 },
+                        // NUEVO DATASET: "CUANTO FALTA" EN COLOR ROJO VIBRANTE
+                        { label: 'Falta Recaudar (S/)', data: data.map(r => r.falta > 0 ? r.falta : 0), backgroundColor: 'rgba(239, 68, 68, 0.85)', borderRadius: 4 }
                     ]
                 },
                 options: {
@@ -429,12 +431,11 @@
                 }
             });
 
-            // CONFIGURACIÓN MEJORADA CON EXTRACCIÓN DE NÚMEROS INTEGRADOS
             const ctxStudents = document.getElementById('chartStudents').getContext('2d');
             if (chartStudents) { chartStudents.destroy(); }
             chartStudents = new Chart(ctxStudents, {
                 type: 'bar',
-                plugins: [ChartDataLabels], // Activa el plugin de números flotantes
+                plugins: [ChartDataLabels],
                 data: {
                     labels: ['Matriculados', 'Meta Alumnos', 'Pagantes Actuales'],
                     datasets: [{
@@ -448,27 +449,17 @@
                     responsive: true, maintainAspectRatio: false,
                     plugins: { 
                         legend: { display: false },
-                        datalabels: { // Configuración estética para que se vean claro los números
+                        datalabels: {
                             anchor: 'end',
                             align: 'top',
-                            color: '#f8fafc', // Blanco hueso de alta visibilidad
-                            font: {
-                                family: 'Plus Jakarta Sans',
-                                weight: '800',
-                                size: 14
-                            },
-                            formatter: function(value) {
-                                return Math.round(value).toLocaleString('es-PE');
-                            }
+                            color: '#f8fafc',
+                            font: { family: 'Plus Jakarta Sans', weight: '800', size: 14 },
+                            formatter: function(value) { return Math.round(value).toLocaleString('es-PE'); }
                         }
                     },
                     scales: {
                         x: { ticks: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: '600', size: 12 } }, grid: { display: false } },
-                        y: { 
-                            grace: '15%', // Da un margen arriba del 15% para que los números no choquen con el techo
-                            grid: { color: 'rgba(51, 65, 85, 0.15)' }, 
-                            ticks: { color: '#64748b' } 
-                        }
+                        y: { grace: '15%', grid: { color: 'rgba(51, 65, 85, 0.15)' }, ticks: { color: '#64748b' } }
                     }
                 }
             });
@@ -478,4 +469,4 @@
         setInterval(loadDashboardData, 60000);
     </script>
 </body>
-</html> 
+</html>
